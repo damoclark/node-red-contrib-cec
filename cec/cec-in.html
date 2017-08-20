@@ -233,9 +233,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			<br/>
 			<div class="form-row">
 				<p><i class="fa fa-filter" aria-hidden="true"></i> Select CEC Events to Emit:</p>
-				<input type="radio" name="select" id="node-input-select_all" value="all" onclick="$('ul.cec-checkbox-grid.cec-events input').prop('disabled',true);" title="Select all CEC events to emit"/>
+				<input type="radio" name="select" id="node-input-select_all" onclick="$('ul.cec-checkbox-grid.cec-events input').prop('disabled',true);" title="Select all CEC events to emit"/>
 				<label for="select_all">Select All</label>
-				<input type="radio" name="select" checked id="select_selected" value="selected" onclick="$('ul.cec-checkbox-grid.cec-events input').prop('disabled',false);" title="Only selected CEC events emited"/>
+				<input type="radio" name="select" checked id="select_selected" onclick="$('ul.cec-checkbox-grid.cec-events input').prop('disabled',false);" title="Only selected CEC events emited"/>
 				<label for="select_selected">Only Selected</label>
 				<ul class="cec-checkbox-grid cec-events"> <!-- TODO The CSS here needs fixing so it all aligns -->
 					<li>
