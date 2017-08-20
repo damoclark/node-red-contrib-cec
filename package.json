@@ -1,0 +1,28 @@
+{
+  "name": "node-red-contrib-cec",
+  "version": "1.0.0",
+  "description": "Node-Red contributed nodes for interacting with cec-enabled devices on a HDMI switch, such as a TV or digital receiver",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "node-red" : {
+    "nodes": {
+      "cec-config": "cec/cec-config.js",
+      "cec-in": "cec/cec-in.js",
+      "cec-out": "cec/cec-out.js",
+      "cec-state": "cec/cec-state.js"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/damoclark/node-red-contrib-cec.git"
+  },
+  "keywords": [
+    "node-red",
+    "cec",
+    "hdmi"
+  ],
+  "author": "Damien Clark",
+  "license": "GPL-3.0"
+}

@@ -1,0 +1,60 @@
+<script type="text/javascript">
+	RED.nodes.registerType('cec-config',{
+		category: 'config',
+		defaults: {
+			// Name must be 14 chars or less and be only printable chars 0x20 - 0x7E
+			OSDname: { value:"node-red", required: true, validate:function(v){ return (v.length <= 14 && /^[\x20-\x7E]+$/.test(v)) } },
+			comport: { value:"", required: false },
+			hdmiport: { value:"1", required: false, validate:RED.validators.number() },
+			player: { value:true, required: false },
+			recorder: { value:false, required: false },
+			tuner: { value:false, required: false },
+			audio: { value:false, required: false }
+		},
+		label: function() {
+			return (this.comport||'Default')+' ('+this.OSDname+')' ;
+		}
+	});
+</script>
+
+<script type="text/x-red" data-template-name="cec-config">
+	<style>
+		.cec-checkbox-grid li {
+				display: inline-block;
+				width: 50%;
+		}
+	</style>
+
+    <div class="form-row">
+        <label for="node-config-input-OSDname"><i class="icon-bookmark"></i> OSD Name</label>
+        <input type="text" id="node-config-input-OSDname"/>
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-comport"><i class="icon-bookmark"></i> CEC Com Port</label>
+        <input type="text" id="node-config-input-comport"/>
+    </div>
+    <div class="form-row">
+        <label for="node-config-input-hdmiport"><i class="icon-bookmark"></i> HDMI Port</label>
+        <input type="text" id="node-config-input-hdmiport"/>
+    </div>
+    <div class="form-row">
+				<ul class="cec-checkbox-grid"> <!-- TODO The CSS here needs fixing so it all aligns -->
+					<li>
+						<input type="checkbox" id="node-config-input-player" value="PLAYER" placeholder="PLAYER"/>
+						<label for="node-config-input-player">PLAYER</label>
+					</li>
+					<li>
+						<input type="checkbox" id="node-config-input-recorder" value="RECORDER" placeholder="RECORDER"/>
+						<label for="node-config-input-recorder">RECORDER</label>
+					</li>
+					<li>
+						<input type="checkbox" id="node-config-input-tuner" value="TUNER" placeholder="TUNER"/>
+						<label for="node-config-input-tuner">TUNER</label>
+					</li>
+					<li>
+						<input type="checkbox" id="node-config-input-audio" value="AUDIO" placeholder="AUDIO"/>
+						<label for="node-config-input-audio">AUDIO</label>
+					</li>
+				</ul>
+    </div>
+</script>
