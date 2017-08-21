@@ -9,9 +9,7 @@
   "node-red" : {
     "nodes": {
       "cec-config": "cec/cec-config.js",
-      "cec-in": "cec/cec-in.js",
-      "cec-out": "cec/cec-out.js",
-      "cec-state": "cec/cec-state.js"
+      "cec-in": "cec/cec-in.js"
     }
   },
   "repository": {
