@@ -67,18 +67,18 @@ module.exports = {
 				// This node is being restarted
 			}
 			monitor.Stop() ;
-			if(state.hasOwnProperty(node.cec_adapter.id))
-				delete state[node.cec_adapter.id] ;
+			if(state.hasOwnProperty(config.cec_adapter))
+				delete state[config.cec_adapter] ;
 			done() ;
 		});
 
 		var monitor ;
-		if(state.hasOwnProperty(node.cec_adapter.id)) {
-			monitor = state[node.cec_adapter.id] ;
+		if(state.hasOwnProperty(config.cec_adapter)) {
+			monitor = state[config.cec_adapter] ;
 		}
 		else {
 			monitor = new CECMonitor(node.cec_adapter.OSDname, node.cec_adapter) ;
-			state[node.cec_adapter.id] = monitor ;
+			state[config.cec_adapter] = monitor ;
 		}
 
 		node.status({fill:"grey",shape:"ring",text:"Connecting"}) ;
