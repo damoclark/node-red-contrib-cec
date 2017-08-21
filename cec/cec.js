@@ -139,12 +139,66 @@ module.exports = {
 		// 	node.warn("sending: "+JSON.stringify(data)) ;
 		// });
 
-		// node.on('input', function(msg) {
-		// 	msg.payload = msg.payload.toLowerCase() ;
-		// 	node.send(msg) ;
-		// }) ;
 	},
-	CecOutNode: function CecOutNode() {
+	CecOutNode: function CecOutNode(config) {
+		var node = this ;
+		RED.nodes.createNode(node,config) ;
+
+		node.status({fill:"grey",shape:"ring",text:"Connecting"}) ;
+
+		// Retrieve the config node
+		node.cec_adapter = mon.init(config) ;
+		var monitor = mon.get(config.cec_adapter) ;
+		node.config = config ;
+
+		node.on('close', function(removed,done) {
+			// tidy up any state
+			if (removed) {
+				// This node has been deleted
+			} else {
+				// This node is being restarted
+			}
+			mon.delete(config.cec_adapter) ;
+			done() ;
+		});
+
+		var ready = function() {
+			node.warn("Node config:"+JSON.stringify(node.config)) ;
+			node.status({fill:"green",shape:"dot",text:"Connected"}) ;
+		} ;
+		monitor.once(CECMonitor.EVENTS._READY, ready) ;
+
+		monitor.on(CECMonitor.EVENTS._STOP,function () {
+			node.status({fill:"red",shape:"ring",text:"Disconnected"}) ;
+			monitor.once(CECMonitor.EVENTS._READY, ready) ;
+		}) ;
+
+
+		node.on('input', function(msg) {
+			node.warn('send: '+JSON.stringify(msg.payload)) ;
+			if(!msg.hasOwnProperty('payload'))
+				return ;
+
+			var msgs ;
+			if(typeof msg.payload === 'array') {
+				msgs = msg.payload ;
+			}
+			else if(typeof msg.payload === 'object') {
+				msgs = [ msg.payload ] ;
+			}
+			else {
+				node.warn('Invalid payload provided: '+JSON.stringify(msg)) ;
+				return ;
+			}
+			msgs.forEach(function (m) {
+				// Default to own logical address if not provided
+				var s = m.source ;
+				var t = m.target ;
+				var o = m.opcode ;
+				var a = m.args ;
+				monitor.SendMessage(s,t,o,a) ;
+			}) ;
+		}) ;
 
 	},
 	CecStateNode: function CecStateNode() {

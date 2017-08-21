@@ -1,0 +1,193 @@
+<!--
+node-red-contrib-cec - Node for Node Red that reads and writes to hdmi cec BUS
+
+cec-out.html
+
+Node-Red CEC Input Node
+
+node-red-contrib-cec
+
+15/8/17
+
+Copyright (C) 2017 Damien Clark (damo.clarky@gmail.com)
+
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+
+<!-- The node type is registered along with all of its properties   -->
+<script type="text/javascript">
+	RED.nodes.registerType('cec-out',{
+		category: 'output',
+		color: '#3FADB5',
+		defaults: {
+			cec_adapter: {required: true, type:"cec-config" },
+			name: {value:"", required: false },
+		},
+		inputs:1,
+		outputs:0,
+		align: 'right',
+		icon: "hdmicec.png",
+		label: function() {
+			return this.name || "cec-out" ;
+		}
+	});
+</script>
+
+<!-- data-template-name identifies the node type this is for              -->
+<script type="text/x-red" data-template-name="cec-out">
+	
+	<!-- Each of the div.form-row elements creates a field in the edit dialog.-->
+	<!-- Generally, there should be an input for each property of the node.   -->
+	<!-- The for and id attributes identify the corresponding property        -->
+	<!-- (with the 'node-input-' prefix).                                     -->
+	<!-- The available icon classes are defined Font Awesome Icons (FA Icons) -->
+
+		<div class="form-row">
+			<p><i class="fa fa-filter" aria-hidden="true"></i> Select CEC Adapter to use</p>
+			<label for="node-input-cec_adapter"><i class="fa fa-tag"></i> CEC Adapter</label>
+			<input type="text" id="node-input-cec_adapter" placeholder="cec_adapter">
+		</div>
+	<!-- By convention, most nodes have a 'name' property. The following div -->
+	<!-- provides the necessary field. Should always be the last option      -->
+	<div class="form-row">
+		<label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+		<input type="text" id="node-input-name" placeholder="Name">
+	</div>
+
+	 
+</script>
+
+<!-- Next, some simple help text is provided for the node.                   -->
+<script type="text/x-red" data-help-name="cec-out">
+   <!-- data-help-name identifies the node type this help is for             -->
+   <!-- This content appears in the Info sidebar when a node is selected     -->
+   <!-- The first <p> is used as the pop-up tool tip when hovering over a    -->
+   <!-- node in the palette.                                                 -->
+   <p>Out node that receives CEC commands to send on the HDMI bus.</p>
+   <p>Commands to send should be specified in the <code>msg</code> <code>payload</code>
+   property as an array of objects or if only a single command, then no array,
+   just an object.  As an example, the object should have the following properties/values:</p>
+   <pre>
+{
+  "source": "RECORDINGDEVICE1",
+  "target": "TV",
+  "opcode": "IMAGE_VIEW_ON",
+  "args": []
+}</pre>
+	<p>The above example is a message from recording device 1 (logical address 1) to the
+	TV device (logical address 0), to request that it power on, using opcode
+	<code>IMAGE_VIEW_ON</code> (hex code 0x04, decimal 4).  No arguments are required for this opcode, hence an empty array.</p>
+	<p>This same message could also be expressed with the following same commands:</p>
+	<pre>
+{
+  "source": "recordingdevice1",
+  "target": "tv",
+  "OPCODE": "image_view_on"
+}
+	</pre>
+	<pre>
+{
+  "source": "0x1",
+  "target": "0x0",
+  "opcode": "0x4"
+}
+	</pre>
+	<pre>
+{
+  "source": 1,
+  "target": 0,
+  "opcode": 4
+}
+	</pre>
+	<p>As you can see, case is unimportant and you can also use numeric values for the codes,
+	and string represenations in hexadecimal (e.g. "0x"). If no args are necessary for the
+	opcode, then that property can be omitted. If you wish to use the logical source address assigned
+	to your cec adapter, then source can be set as null or simply omitted</p>
+	<p>See below for a full list of all the codes and their values</p>
+	<ul>
+		<li title="Used by a new source to indicate that it has started to transmit a stream OR used in response to a ">ACTIVE_SOURCE</li>
+		<li title="Sent by a source device to the TV whenever it enters the active state (alternatively it may send ">IMAGE_VIEW_ON</li>
+		<li title="As ">TEXT_VIEW_ON</li>
+		<li title="Used by the currently active source to inform the TV that it has no video to be presented to the user, or is going into standby as the result of a local user command on the device (Directly addressed)">INACTIVE_SOURCE</li>
+		<li title="Used by a new device to discover the status of the system (Broadcast)">REQUEST_ACTIVE_SOURCE</li>
+		<li title="Sent by a CEC Switch when it is manually switched to inform all other devices on the network that the active route below the switch has changed (Broadcast)">ROUTING_CHANGE</li>
+		<li title="Sent by a CEC Switch to indicate the active route below the switch (Broadcast)">ROUTING_INFORMATION</li>
+		<li title="Used by the TV to request a streaming path from the specified address (Broadcast)">SET_STREAM_PATH</li>
+		<li title="Switches on or all devices into standby mode. Can be used a broadcast message or be addressed to a specific device (Broadcast or Directly addressed)">STANDBY</li>
+		<li title="Requests a device to stop a recording (Directly addressed)">RECORD_OFF</li>
+		<li title="Attempt to record the specified source (Directly addressed). This message is used in several features : One Touch Record,Tuner Control">RECORD_ON</li>
+		<li title="Used by a Recording Device to inform the initiator of the message ">RECORD_STATUS</li>
+		<li title="Request by the Recording Device to record the presently displayed source (Directly addressed)">RECORD_TV_SCREEN</li>
+		<li title="Used to clear an Analogue timer block of a device (Directly addressed)">CLEAR_ANALOGUE_TIMER</li>
+		<li title="Used to clear a Digital timer block of a device (Directly addressed)">CLEAR_DIGITAL_TIMER</li>
+		<li title="Used to clear an External timer block of a device (Directly addressed)">CLEAR_EXTERNAL_TIMER</li>
+		<li title="Used to set a single timer block on an Analogue Recording Device (Directly addressed)">SET_ANALOGUE_TIMER</li>
+		<li title="Used to set a single timer block on a Digital Recording Device (Directly addressed)">SET_DIGITAL_TIMER</li>
+		<li title="Used to set a single timer block to record from an external device (Directly addressed)">SET_EXTERNAL_TIMER</li>
+		<li title="Used to set the name of a program associated with a timer block. Sent directly after sending a ">SET_TIMER_PROGRAM_TITLE</li>
+		<li title="Used to give the status of a ">TIMER_CLEARED_STATUS</li>
+		<li title="Used to send timer status to the initiator of a ">TIMER_STATUS</li>
+		<li title="Used to indicate the supported CEC version, in response to a ">CEC_VERSION</li>
+		<li title="Used by a device to enquire which version of CEC the target supports (Directly addressed)">GET_CEC_VERSION</li>
+		<li title="A request to a device to return its physical address. (Directly addressed)">GIVE_PHYSICAL_ADDRESS</li>
+		<li title="Sent by a device capable of character generation (for OSD and Menus) to a TV in order to discover the currently selected Menu language. Also used by a TV during installation to discover the currently set menu language from other devices (Directly addressed)">GET_MENU_LANGUAGE</li>
+		<li title="Used to inform all other devices of the mapping between physical and logical address of the initiator (Broadcast)">REPORT_PHYSICAL_ADDRESS</li>
+		<li title="Used by a TV or another device to indicate the menu language (Broadcast)">SET_MENU_LANGUAGE</li>
+		<li title="Used to control a device’s media functions (Directly addressed)">DECK_CONTROL</li>
+		<li title="Used to provide a deck’s status to the initiator of the ">DECK_STATUS</li>
+		<li title="Used to request the status of a device, regardless of whether or not it is the current active source (Directly addressed)">GIVE_DECK_STATUS</li>
+		<li title="Used to control the playback behaviour of a source device (Directly addressed)">PLAY</li>
+		<li title="Used to request the status of a tuner device (Directly addressed)">GIVE_TUNER_DEVICE_STATUS</li>
+		<li title="Directly selects an Analogue TV service (Directly addressed)">SELECT_ANALOGUE_SERVICE</li>
+		<li title="Directly selects a Digital TV, Radio or Data Broadcast Service (Directly addressed)">SELECT_DIGITAL_SERVICE</li>
+		<li title="Used by a tuner device to provide its status to the initiator of the ">TUNER_DEVICE_STATUS</li>
+		<li title="Used to tune to next lowest service in a tuner’s service list. Can be used for PIP (Directly addressed)">TUNER_STEP_DECREMENT</li>
+		<li title="Used to tune to next highest service in a tuner’s service list. Can be used for PIP (Directly addressed)">TUNER_STEP_INCREMENT</li>
+		<li title="Reports the Vendor ID of this device (Broadcast)">DEVICE_VENDOR_ID</li>
+		<li title="Requests the Vendor ID from a device (Directly addressed)">GIVE_DEVICE_VENDOR_ID</li>
+		<li title="Allows vendor specific commands to be sent between two devices (Directly addressed)">VENDOR_COMMAND</li>
+		<li title="Allows vendor specific commands to be sent between two devices or broadcast (Directly addressed or Broadcast)">VENDOR_COMMAND_WITH_ID</li>
+		<li title="Indicates that a remote control button has been depressed (Directly addressed or Broadcast)">VENDOR_REMOTE_BUTTON_DOWN</li>
+		<li title="Indicates that a remote control button (the last button pressed indicated by the ">VENDOR_REMOTE_BUTTON_UP</li>
+		<li title="Used to send a text message to output on a TV (Directly addressed)">SET_OSD_STRING</li>
+		<li title="Used to request the preferred OSD name of a device for use in menus associated with that device (Directly addressed)">GIVE_OSD_NAME</li>
+		<li title="Used to set the preferred OSD name of a device for use in menus associated with that device (Directly addressed)">SET_OSD_NAME</li>
+		<li title="A request from the TV for a device to show/remove a menu or to query if a device is currently showing a menu (Directly addressed)">MENU_REQUEST</li>
+		<li title="Used to indicate to the TV that the device is showing/has removed a menu and requests the remote control keys to be passed though (Directly addressed)">MENU_STATUS</li>
+		<li title="Used to indicate that the user pressed a remote control button or switched from one remote control button to another (Directly addressed). This message is used in several features : Device Menu Control,System Audio Control,Remote Control Pass Through">USER_CONTROL_PRESSED</li>
+		<li title="Indicates that user released a remote control button (the last one indicated by the ">USER_CONTROL_RELEASE</li>
+		<li title="Used to determine the current power status of a target device (Directly addressed)">GIVE_DEVICE_POWER_STATUS</li>
+		<li title="Used to inform a requesting device of the current power status (Directly addressed)">REPORT_POWER_STATUS</li>
+		<li title="Used as a response to indicate that the device does not support the requested message type, or that it cannot execute it at the present time (Directly addressed)">FEATURE_ABORT</li>
+		<li title="This message is reserved for testing purposes (Directly addressed)">ABORT</li>
+		<li title="Requests an amplifier to send its volume and mute status (Directly addressed)">GIVE_AUDIO_STATUS</li>
+		<li title="Requests the status of the System Audio Mode (Directly addressed)">GIVE_SYSTEM_AUDIO_MODE_STATUS</li>
+		<li title="Reports an amplifier’s volume and mute status (Directly addressed)">REPORT_AUDIO_STATUS</li>
+		<li title="Turns the System Audio Mode On or Off (Directly addressed or Broadcast)">SET_SYSTEM_AUDIO_MODE</li>
+		<li title="A device implementing System Audio Control and which has volume control RC buttons (eg TV or STB) requests to use System Audio Mode to the amplifier (Directly addressed)">SYSTEM_AUDIO_MODE_REQUEST</li>
+		<li title="Reports the current status of the System Audio Mode (Directly addressed)">SYSTEM_AUDIO_MODE_STATUS</li>
+		<li title="Used to control audio rate from Source Device (Directly addressed)">SET_AUDIO_RATE</li>
+		<li title="ARC 1.4 support">START_ARC</li>
+		<li>REPORT_ARC_STARTED</li>
+		<li>REPORT_ARC_ENDED</li>
+		<li>REQUEST_ARC_START</li>
+		<li>REQUEST_ARC_END</li>
+		<li>END_ARC</li>
+		<li>CDC</li>
+		<li>NONE</li>
+	</ul>
+</script>
+
