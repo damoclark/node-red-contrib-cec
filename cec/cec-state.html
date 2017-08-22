@@ -1,0 +1,115 @@
+<!--
+node-red-contrib-cec - Node for Node Red that reads and writes to hdmi cec BUS
+
+cec-state.html
+
+Node-Red CEC Input Node
+
+node-red-contrib-cec
+
+15/8/17
+
+Copyright (C) 2017 Damien Clark (damo.clarky@gmail.com)
+
+
+This program is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
+-->
+
+
+<!-- The node type is registered along with all of its properties   -->
+<script type="text/javascript">
+	RED.nodes.registerType('cec-state',{
+		category: 'function',
+		color: '#3FADB5',
+		defaults: {
+			cec_adapter: {required: true, type:"cec-config" },
+			name: {value:"", required: false },
+			output: {value:"payload", required: true },
+			flow_name: {value:"", required: false },
+			flow: {value:false, required: true },
+			scan: {value: false, required: false }
+		},
+		inputs:1,
+		outputs:1,
+		icon: "hdmicec.png",
+		label: function() {
+			return this.name || "cec-state" ;
+		},
+		// Adds jquery accordion to edit html for UI 'on-editprepare'
+		oneditprepare: function() {
+			$(function() {
+				// If checkbox not ticked, disable text field on load
+				if(!$("#node-input-flow").prop('checked')) {
+					$("#node-input-flow_name").prop('disabled',true) ;
+				}
+				// Add event handler to toggle disabled property based on value of checkbox
+				$("#node-input-flow").click(function() {
+					var enable = $("#node-input-flow").prop('checked') ;
+					if(enable) {
+						$("#node-input-flow_name").prop('disabled', false);
+					}
+					else {
+						$("#node-input-flow_name").prop('disabled', true);
+					}
+				}) ;
+			}) ;
+		}
+	});
+</script>
+
+<!-- data-template-name identifies the node type this is for              -->
+<script type="text/x-red" data-template-name="cec-state">
+	
+	<!-- Each of the div.form-row elements creates a field in the edit dialog.-->
+	<!-- Generally, there should be an input for each property of the node.   -->
+	<!-- The for and id attributes identify the corresponding property        -->
+	<!-- (with the 'node-input-' prefix).                                     -->
+	<!-- The available icon classes are defined Font Awesome Icons (FA Icons) -->
+
+	<div class="form-row">
+		<p><i class="fa fa-filter" aria-hidden="true"></i> Select CEC Adapter to use</p>
+		<label for="node-input-cec_adapter"><i class="fa fa-tag"></i> CEC Adapter</label>
+		<input type="text" id="node-input-cec_adapter" placeholder="cec_adapter">
+	</div>
+	<div class="form-row">
+		<label for="node-input-flow"><i class="fa fa-tag"></i> Store in Flow</label>
+		<input type="checkbox" id="node-input-flow"/>
+		<input type="text" id="node-input-flow_name" placeholder="Property name"/>
+	</div>
+	<div class="form-row">
+		<label for="node-input-output"><i class="fa fa-tag"></i> Output to: msg.</label>
+		<input type="text" id="node-input-output" placeholder="Property name"/>
+	</div>
+	<div class="form-row">
+		<label for="node-input-scan"><i class="fa fa-tag"></i> Scan on startup</label>
+		<input type="checkbox" id="node-input-scan"/>
+	</div>
+	<!-- By convention, most nodes have a 'name' property. The following div -->
+	<!-- provides the necessary field. Should always be the last option      -->
+	<div class="form-row">
+		<label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+		<input type="text" id="node-input-name" placeholder="Name">
+	</div>
+
+	 
+</script>
+
+<!-- Next, some simple help text is provided for the node.                   -->
+<script type="text/x-red" data-help-name="cec-state">
+   <!-- data-help-name identifies the node type this help is for             -->
+   <!-- This content appears in the Info sidebar when a node is selected     -->
+   <!-- The first <p> is used as the pop-up tool tip when hovering over a    -->
+   <!-- node in the palette.                                                 -->
+</script>
+

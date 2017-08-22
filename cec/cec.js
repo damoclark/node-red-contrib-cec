@@ -26,6 +26,7 @@
 "use strict" ;
 // require any external libraries we may need....
 var c = require('@senzil/cec-monitor') ;
+var pathval = require('pathval') ;
 
 var CEC = c.CEC ;
 var CECMonitor = c.CECMonitor ;
@@ -33,13 +34,14 @@ var RED = null ;
 
 function MonManager() {
 	this.state = {} ;
+	this.nodes = {} ;
 }
 
-MonManager.prototype.init = function(config) {
+MonManager.prototype.init = function(node,config) {
+	if(!this.nodes.hasOwnProperty(config.cec_adapter))
+		this.nodes[config.cec_adapter] = node ;
+
 	var cec_adapter = RED.nodes.getNode(config.cec_adapter);
-	if(!this.state.hasOwnProperty(config.cec_adapter)) {
-		this.state[config.cec_adapter] = new CECMonitor(cec_adapter.OSDname, cec_adapter) ;
-	}
 	cec_adapter.debug = false ;
 	cec_adapter.processManaged = true ;
 	cec_adapter.autorestart = true ;
@@ -48,6 +50,24 @@ MonManager.prototype.init = function(config) {
 		wait_time: 30,          //in seconds - time to do the attempt
 		trigger_stop: true     //avoid trigger stop event
 	} ;
+	if(!this.state.hasOwnProperty(config.cec_adapter)) {
+		var self = this ;
+		self.state[config.cec_adapter] = new CECMonitor(cec_adapter.OSDname, cec_adapter) ;
+		// Configure handlers to log unusual events via node-red using the first node
+		// provided to MonManager
+		self.state[config.cec_adapter].on(CECMonitor.EVENTS._WARNING,function(warning) {
+			self.nodes[config.cec_adapter].warn(warning) ;
+		}) ;
+		self.state[config.cec_adapter].on(CECMonitor.EVENTS._NOHDMICORD,function() {
+			self.nodes[config.cec_adapter].warn('HDMI Cord has been disconnected') ;
+		}) ;
+		self.state[config.cec_adapter].on(CECMonitor.EVENTS._ERROR,function(error) {
+			self.nodes[config.cec_adapter].error(error) ;
+		}) ;
+		self.state[config.cec_adapter].on(CECMonitor.EVENTS._NOSERIALPORT,function() {
+			self.nodes[config.cec_adapter].error('No serial port') ;
+		}) ;
+	}
 	return cec_adapter ;
 } ;
 
@@ -59,12 +79,11 @@ MonManager.prototype.delete = function (cec_adapter) {
 	if(this.state.hasOwnProperty(cec_adapter)) {
 		this.state[cec_adapter].Stop() ;
 		delete this.state[cec_adapter] ;
+		delete this.node[cec_adapter] ;
 	}
 } ;
 
 var mon = new MonManager() ;
-
-var state = {} ;
 
 module.exports = {
 	init: function init(red) {
@@ -83,7 +102,7 @@ module.exports = {
 		node.status({fill:"grey",shape:"ring",text:"Connecting"}) ;
 
 		// Retrieve the config node
-		node.cec_adapter = mon.init(config) ;
+		node.cec_adapter = mon.init(node,config) ;
 		var monitor = mon.get(config.cec_adapter) ;
 		node.config = config ;
 		node.config.select_all = (node.config.select_all == 'true') ;
@@ -100,7 +119,6 @@ module.exports = {
 		});
 
 		var ready = function() {
-			node.warn("Node config:"+JSON.stringify(node.config)) ;
 			node.status({fill:"green",shape:"dot",text:"Connected"}) ;
 		} ;
 		monitor.once(CECMonitor.EVENTS._READY, ready) ;
@@ -119,7 +137,6 @@ module.exports = {
 		} ;
 
 		if(node.config.select_all === true) {
-			node.warn('Setting up select_all') ;
 			monitor.on(CECMonitor.EVENTS._OPCODE,function(packet) {
 				send(packet) ;
 			}) ;
@@ -134,11 +151,6 @@ module.exports = {
 			});
 		}
 
-		// monitor.on(CECMonitor.EVENTS._DEBUG, function(data) {
-		// 	// set 'debug: true' on new CECMonitor
-		// 	node.warn("sending: "+JSON.stringify(data)) ;
-		// });
-
 	},
 	CecOutNode: function CecOutNode(config) {
 		var node = this ;
@@ -147,7 +159,7 @@ module.exports = {
 		node.status({fill:"grey",shape:"ring",text:"Connecting"}) ;
 
 		// Retrieve the config node
-		node.cec_adapter = mon.init(config) ;
+		node.cec_adapter = mon.init(node,config) ;
 		var monitor = mon.get(config.cec_adapter) ;
 		node.config = config ;
 
@@ -163,7 +175,6 @@ module.exports = {
 		});
 
 		var ready = function() {
-			node.warn("Node config:"+JSON.stringify(node.config)) ;
 			node.status({fill:"green",shape:"dot",text:"Connected"}) ;
 		} ;
 		monitor.once(CECMonitor.EVENTS._READY, ready) ;
@@ -175,7 +186,6 @@ module.exports = {
 
 
 		node.on('input', function(msg) {
-			node.warn('send: '+JSON.stringify(msg.payload)) ;
 			if(!msg.hasOwnProperty('payload'))
 				return ;
 
@@ -201,7 +211,60 @@ module.exports = {
 		}) ;
 
 	},
-	CecStateNode: function CecStateNode() {
+	CecStateNode: function CecStateNode(config) {
+		var node = this ;
+		RED.nodes.createNode(node,config) ;
+
+		node.status({fill:"grey",shape:"ring",text:"Connecting"}) ;
+
+		// Retrieve the config node
+		node.cec_adapter = mon.init(node,config) ;
+		var monitor = mon.get(config.cec_adapter) ;
+		node.config = config ;
+
+		node.on('close', function(removed,done) {
+			// tidy up any state
+			if (removed) {
+				// This node has been deleted
+			} else {
+				// This node is being restarted
+			}
+			mon.delete(config.cec_adapter) ;
+			done() ;
+		});
+
+		var ready = function() {
+			if(node.config.scan) {
+				monitor.WriteRawMessage('scan') ;
+			}
+			node.status({fill:"green",shape:"dot",text:"Connected"}) ;
+		} ;
+		monitor.once(CECMonitor.EVENTS._READY, ready) ;
+
+		monitor.on(CECMonitor.EVENTS._STOP,function () {
+			node.status({fill:"red",shape:"ring",text:"Disconnected"}) ;
+			monitor.once(CECMonitor.EVENTS._READY, ready) ;
+		}) ;
+
+		// Do we update the flow property on receipt of every opcode from CEC bus?
+		if(node.config.flow) {
+			monitor.on(CECMonitor.EVENTS._OPCODE,function(packet) {
+					var s = monitor.GetState() ;
+					var flowContext = node.context().flow ;
+					flowContext.set(node.config.flow_name,s) ;
+			}) ;
+		}
+
+		node.on('input', function(msg) {
+
+			// What information from the state do they want, and send it on
+			var address = (msg.address || msg.address === 0) ? msg.address : undefined ;
+			var state = monitor.GetState(address) ;
+
+			// Update our message
+			pathval.setPathValue(msg,node.config.output,state) ;
+			node.send(msg) ;
+		}) ;
 
 	}
 } ;

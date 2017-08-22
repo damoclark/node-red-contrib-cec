@@ -6,9 +6,10 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "node-red" : {
+  "node-red": {
     "nodes": {
       "cec-config": "cec/cec-config.js",
+      "cec-state": "cec/cec-state.js",
       "cec-in": "cec/cec-in.js",
       "cec-out": "cec/cec-out.js"
     }
@@ -23,5 +24,8 @@
     "hdmi"
   ],
   "author": "Damien Clark",
-  "license": "GPL-3.0"
+  "license": "GPL-3.0",
+  "dependencies": {
+    "pathval": "^1.1.0"
+  }
 }
