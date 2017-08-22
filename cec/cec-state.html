@@ -36,7 +36,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			cec_adapter: {required: true, type:"cec-config" },
 			name: {value:"", required: false },
 			output: {value:"payload", required: true },
-			flow_name: {value:"", required: false },
+			flow_name: {value:"cec", required: false },
 			flow: {value:false, required: true },
 			scan: {value: false, required: false }
 		},
@@ -107,9 +107,109 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <!-- Next, some simple help text is provided for the node.                   -->
 <script type="text/x-red" data-help-name="cec-state">
-   <!-- data-help-name identifies the node type this help is for             -->
-   <!-- This content appears in the Info sidebar when a node is selected     -->
-   <!-- The first <p> is used as the pop-up tool tip when hovering over a    -->
-   <!-- node in the palette.                                                 -->
+	<!-- data-help-name identifies the node type this help is for             -->
+	<!-- This content appears in the Info sidebar when a node is selected     -->
+	<!-- The first <p> is used as the pop-up tool tip when hovering over a    -->
+	<!-- node in the palette.                                                 -->
+	<p>This node tracks and stores the status of all the devices connected to the
+	HDMI CEC bus by listening to the cec messages.</p>
+	<p>By sending a message to its input, you can query a particular device by
+	its logical or physical address or, without an address, query state
+	information of all logical addresses</p>
+	<h3>Input Query Message Format</h3>
+	<p>To query a particular device, specify in the input message, the logical
+	(0 - 15) or physical address (of form 0.0.0.0) in <code>msg.address</code>
+	as shown below:</p>
+	<pre>
+msg = {
+  "address": "1.0.0.0"
+}
+   </pre>
+   <p>Or:</p>
+   <pre>
+msg = {
+  "address": "4"
+}
+	</pre>
+	<h3>Output Format</h3>
+	<p>If a specific address is requested, the following js data structure shall be returned:</p>
+	<pre>
+{
+  "physical": "0.0.0.0",
+  "power": 1,
+  "osdname": "TV"
+}
+	</pre>
+	<p>If a value is not known, then it will either be set to null, or an empty string:</p>
+	<pre>
+{
+  "physical": null,
+  "power": null,
+  "osdname": ""
+}
+	</pre>
+	<p>If <code>msg.address</code> is omitted, then all devices' state is returned as
+	an object keyed by logical address for all devices, as per below:</p>
+	<pre>
+{
+  "0": {
+    "physical": "0.0.0.0",
+    "power": 1,
+    "osdname": "TV"
+  },
+  "1": {
+    "physical": "1.0.0.0",
+    "power": 0,
+    "osdname": "RasPlex"
+  },
+  "2": {
+    "physical": null,
+    "power": null,
+    "osdname": ""
+  },
+  "3": {
+    "physical": null,
+    "power": null,
+    "osdname": ""
+  },
+  "4": {
+    "physical": "3.0.0.0",
+    "power": null,
+    "osdname": "node-red"
+  },
+  "5": {
+    "physical": null,
+    "power": null,
+    "osdname": ""
+  },
+  ...
+  "15": {
+    "physical": null,
+    "power": null,
+    "osdname": ""
+  }
+}
+	</pre>
+	<h3>Property to Store State in Outgoing Message</h3>
+	<p>You can specify the property name to store the output in the outgoing <code>msg</code> object.
+	By default, it will be stored in <code>msg.payload</code> but you can store it anywhere.</p>
+	<h3>Storing State in Flow Context</h3>
+	<p>If you wish, you can also have cec-state store the state information of all devices in the context
+	of the flow in which the cec-state node resides.  This makes this state information available to any
+	other node in the flow, including function nodes.  You can specify the property name to use to store
+	the state information, which by default, is <code>cec</code>. To access the state data from a function
+	node, use the following syntax:</p>
+	<pre>
+var cec = flow.get('cec') ;
+msg.payload = cec[0].osdname ;
+return msg ;
+	</pre>
+	<p>This will retrieve the on screen display name for the TV (logical address 0) and store it in the payload
+	of the outgoing message from the function node.</p>
+	<h3>CEC Bus Scan</h3>
+	<p>Finally, you can ask the cec-state node to perform a bus scan on startup to try and identify all the
+	devices attached to the display device (on the CEC bus).  Keep in mind that if you have non-CEC enabled
+	devices attached, the scan can cause confusion about which device is the active source.  Your mileage
+	may vary.</p>
 </script>
 
