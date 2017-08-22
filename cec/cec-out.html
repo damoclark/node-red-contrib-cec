@@ -118,9 +118,9 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	to your cec adapter, then source can be set as null or simply omitted</p>
 	<p>See below for a full list of all the codes and their values</p>
 	<ul>
-		<li title="Used by a new source to indicate that it has started to transmit a stream OR used in response to a ">ACTIVE_SOURCE</li>
-		<li title="Sent by a source device to the TV whenever it enters the active state (alternatively it may send ">IMAGE_VIEW_ON</li>
-		<li title="As ">TEXT_VIEW_ON</li>
+		<li title="Used by a new source to indicate that it has started to transmit a stream OR used in response to a 'Request Active Source' (Brodcast). This message is used in several features : One Touch Play,Routing Control">ACTIVE_SOURCE</li>
+		<li title="Sent by a source device to the TV whenever it enters the active state (alternatively it may send 'Text View On') (Directly addressed)">IMAGE_VIEW_ON</li>
+		<li title="As 'Image View On', but should also remove any text, menus and PIP windows from the TV’s display (Directly addressed)">TEXT_VIEW_ON</li>
 		<li title="Used by the currently active source to inform the TV that it has no video to be presented to the user, or is going into standby as the result of a local user command on the device (Directly addressed)">INACTIVE_SOURCE</li>
 		<li title="Used by a new device to discover the status of the system (Broadcast)">REQUEST_ACTIVE_SOURCE</li>
 		<li title="Sent by a CEC Switch when it is manually switched to inform all other devices on the network that the active route below the switch has changed (Broadcast)">ROUTING_CHANGE</li>
@@ -129,7 +129,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<li title="Switches on or all devices into standby mode. Can be used a broadcast message or be addressed to a specific device (Broadcast or Directly addressed)">STANDBY</li>
 		<li title="Requests a device to stop a recording (Directly addressed)">RECORD_OFF</li>
 		<li title="Attempt to record the specified source (Directly addressed). This message is used in several features : One Touch Record,Tuner Control">RECORD_ON</li>
-		<li title="Used by a Recording Device to inform the initiator of the message ">RECORD_STATUS</li>
+		<li title="Used by a Recording Device to inform the initiator of the message 'Record On' about its status (Directly addressed)">RECORD_STATUS</li>
 		<li title="Request by the Recording Device to record the presently displayed source (Directly addressed)">RECORD_TV_SCREEN</li>
 		<li title="Used to clear an Analogue timer block of a device (Directly addressed)">CLEAR_ANALOGUE_TIMER</li>
 		<li title="Used to clear a Digital timer block of a device (Directly addressed)">CLEAR_DIGITAL_TIMER</li>
@@ -137,23 +137,23 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<li title="Used to set a single timer block on an Analogue Recording Device (Directly addressed)">SET_ANALOGUE_TIMER</li>
 		<li title="Used to set a single timer block on a Digital Recording Device (Directly addressed)">SET_DIGITAL_TIMER</li>
 		<li title="Used to set a single timer block to record from an external device (Directly addressed)">SET_EXTERNAL_TIMER</li>
-		<li title="Used to set the name of a program associated with a timer block. Sent directly after sending a ">SET_TIMER_PROGRAM_TITLE</li>
-		<li title="Used to give the status of a ">TIMER_CLEARED_STATUS</li>
-		<li title="Used to send timer status to the initiator of a ">TIMER_STATUS</li>
-		<li title="Used to indicate the supported CEC version, in response to a ">CEC_VERSION</li>
+		<li title="Used to set the name of a program associated with a timer block. Sent directly after sending a 'Set Analogue Timer' or 'Set Digital Timer' message. The name is then associated with that timer block (Directly addressed)">SET_TIMER_PROGRAM_TITLE</li>
+		<li title="Used to give the status of a 'Clear Analogue Timer', 'Clear Digital Timer' or 'Clear External Timer' message (Directly addressed)">TIMER_CLEARED_STATUS</li>
+		<li title="Used to send timer status to the initiator of a 'Status Timer' message (Directly addressed)">TIMER_STATUS</li>
+		<li title="Used to indicate the supported CEC version, in response to a 'Get CEC Version' (Directly addressed)">CEC_VERSION</li>
 		<li title="Used by a device to enquire which version of CEC the target supports (Directly addressed)">GET_CEC_VERSION</li>
 		<li title="A request to a device to return its physical address. (Directly addressed)">GIVE_PHYSICAL_ADDRESS</li>
 		<li title="Sent by a device capable of character generation (for OSD and Menus) to a TV in order to discover the currently selected Menu language. Also used by a TV during installation to discover the currently set menu language from other devices (Directly addressed)">GET_MENU_LANGUAGE</li>
 		<li title="Used to inform all other devices of the mapping between physical and logical address of the initiator (Broadcast)">REPORT_PHYSICAL_ADDRESS</li>
 		<li title="Used by a TV or another device to indicate the menu language (Broadcast)">SET_MENU_LANGUAGE</li>
 		<li title="Used to control a device’s media functions (Directly addressed)">DECK_CONTROL</li>
-		<li title="Used to provide a deck’s status to the initiator of the ">DECK_STATUS</li>
+		<li title="Used to provide a deck’s status to the initiator of the 'Give Deck Status' message (Directly addressed)">DECK_STATUS</li>
 		<li title="Used to request the status of a device, regardless of whether or not it is the current active source (Directly addressed)">GIVE_DECK_STATUS</li>
 		<li title="Used to control the playback behaviour of a source device (Directly addressed)">PLAY</li>
 		<li title="Used to request the status of a tuner device (Directly addressed)">GIVE_TUNER_DEVICE_STATUS</li>
 		<li title="Directly selects an Analogue TV service (Directly addressed)">SELECT_ANALOGUE_SERVICE</li>
 		<li title="Directly selects a Digital TV, Radio or Data Broadcast Service (Directly addressed)">SELECT_DIGITAL_SERVICE</li>
-		<li title="Used by a tuner device to provide its status to the initiator of the ">TUNER_DEVICE_STATUS</li>
+		<li title="Used by a tuner device to provide its status to the initiator of the 'Give Tuner Device Status' message (Directly addressed)">TUNER_DEVICE_STATUS</li>
 		<li title="Used to tune to next lowest service in a tuner’s service list. Can be used for PIP (Directly addressed)">TUNER_STEP_DECREMENT</li>
 		<li title="Used to tune to next highest service in a tuner’s service list. Can be used for PIP (Directly addressed)">TUNER_STEP_INCREMENT</li>
 		<li title="Reports the Vendor ID of this device (Broadcast)">DEVICE_VENDOR_ID</li>
@@ -161,14 +161,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<li title="Allows vendor specific commands to be sent between two devices (Directly addressed)">VENDOR_COMMAND</li>
 		<li title="Allows vendor specific commands to be sent between two devices or broadcast (Directly addressed or Broadcast)">VENDOR_COMMAND_WITH_ID</li>
 		<li title="Indicates that a remote control button has been depressed (Directly addressed or Broadcast)">VENDOR_REMOTE_BUTTON_DOWN</li>
-		<li title="Indicates that a remote control button (the last button pressed indicated by the ">VENDOR_REMOTE_BUTTON_UP</li>
+		<li title="Indicates that a remote control button (the last button pressed indicated by the 'Vendor Remote Button Down' message) has been released (Directly addressed or Broadcast)">VENDOR_REMOTE_BUTTON_UP</li>
 		<li title="Used to send a text message to output on a TV (Directly addressed)">SET_OSD_STRING</li>
 		<li title="Used to request the preferred OSD name of a device for use in menus associated with that device (Directly addressed)">GIVE_OSD_NAME</li>
 		<li title="Used to set the preferred OSD name of a device for use in menus associated with that device (Directly addressed)">SET_OSD_NAME</li>
 		<li title="A request from the TV for a device to show/remove a menu or to query if a device is currently showing a menu (Directly addressed)">MENU_REQUEST</li>
 		<li title="Used to indicate to the TV that the device is showing/has removed a menu and requests the remote control keys to be passed though (Directly addressed)">MENU_STATUS</li>
 		<li title="Used to indicate that the user pressed a remote control button or switched from one remote control button to another (Directly addressed). This message is used in several features : Device Menu Control,System Audio Control,Remote Control Pass Through">USER_CONTROL_PRESSED</li>
-		<li title="Indicates that user released a remote control button (the last one indicated by the ">USER_CONTROL_RELEASE</li>
+		<li title="Indicates that user released a remote control button (the last one indicated by the 'User Control Pressed' message) (Directly addressed). This message is used in several features : Device Menu Control,System Audio Control,Remote Control Pass Through">USER_CONTROL_RELEASE</li>
 		<li title="Used to determine the current power status of a target device (Directly addressed)">GIVE_DEVICE_POWER_STATUS</li>
 		<li title="Used to inform a requesting device of the current power status (Directly addressed)">REPORT_POWER_STATUS</li>
 		<li title="Used as a response to indicate that the device does not support the requested message type, or that it cannot execute it at the present time (Directly addressed)">FEATURE_ABORT</li>
