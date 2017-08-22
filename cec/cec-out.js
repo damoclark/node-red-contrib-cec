@@ -1,5 +1,5 @@
 /**
- * cec-in.js
+ * cec-out.js
  *
  * Node-Red CEC Input Node
  *
