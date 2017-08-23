@@ -76,7 +76,8 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
    <!-- This content appears in the Info sidebar when a node is selected     -->
    <!-- The first <p> is used as the pop-up tool tip when hovering over a    -->
    <!-- node in the palette.                                                 -->
-   <p>Out node that receives CEC commands to send on the HDMI bus.</p>
+   <p>Output node that receives CEC commands to send on the HDMI bus.</p>
+   <h3>Input Node Format</h3>
    <p>Commands to send should be specified in the <code>msg</code> <code>payload</code>
    property as an array of objects or if only a single command, then no array,
    just an object.  As an example, the object should have the following properties/values:</p>
@@ -116,7 +117,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	and string represenations in hexadecimal (e.g. "0x"). If no args are necessary for the
 	opcode, then that property can be omitted. If you wish to use the logical source address assigned
 	to your cec adapter, then source can be set as null or simply omitted</p>
-	<p>See below for a full list of all the codes and their values</p>
+	<h3>All Commands</h3>
+	<p>See below for a full list of all the codes and their values. Mouse-over for an explanation (reproduced from
+	<a href="https://www.npmjs.com/package/@senzil/cec-monitor">cec-monitor</a>). My sincere thanks to Pablo Gonzalez
+	for his work on cec-monitor, without which, node-red-contrib-cec would not be possible.</p>
+	<p>Also refer to <a href="http://www.cec-o-matic.com/">cec-o-matic</a> for further information on these
+	commands and their usage.</p>
 	<ul>
 		<li title="Used by a new source to indicate that it has started to transmit a stream OR used in response to a 'Request Active Source' (Brodcast). This message is used in several features : One Touch Play,Routing Control">ACTIVE_SOURCE</li>
 		<li title="Sent by a source device to the TV whenever it enters the active state (alternatively it may send 'Text View On') (Directly addressed)">IMAGE_VIEW_ON</li>
