@@ -33,13 +33,14 @@ var CECMonitor = c.CECMonitor ;
 var RED = null ;
 
 function MonManager() {
-	this.state = {} ;
-	this.nodes = {} ;
+	this.monitor = {} ;
+	this.node = {} ;
+	this.count = {} ;
 }
 
 MonManager.prototype.init = function(node,config) {
-	if(!this.nodes.hasOwnProperty(config.cec_adapter))
-		this.nodes[config.cec_adapter] = node ;
+	if(!this.node.hasOwnProperty(config.cec_adapter))
+		this.node[config.cec_adapter] = node ;
 
 	var cec_adapter = RED.nodes.getNode(config.cec_adapter);
 	cec_adapter.debug = false ;
@@ -50,36 +51,47 @@ MonManager.prototype.init = function(node,config) {
 		wait_time: 30,          //in seconds - time to do the attempt
 		trigger_stop: true     //avoid trigger stop event
 	} ;
-	if(!this.state.hasOwnProperty(config.cec_adapter)) {
+
+	if(this.count.hasOwnProperty(config.cec_adapter))
+		++this.count[config.cec_adapter] ;
+	else {
+		this.count[config.cec_adapter] = 1 ;
+
 		var self = this ;
-		self.state[config.cec_adapter] = new CECMonitor(cec_adapter.OSDname, cec_adapter) ;
+		self.monitor[config.cec_adapter] = new CECMonitor(cec_adapter.OSDname, cec_adapter) ;
 		// Configure handlers to log unusual events via node-red using the first node
 		// provided to MonManager
-		self.state[config.cec_adapter].on(CECMonitor.EVENTS._WARNING,function(warning) {
-			self.nodes[config.cec_adapter].warn(warning) ;
+		self.monitor[config.cec_adapter].on(CECMonitor.EVENTS._WARNING,function(warning) {
+			self.node[config.cec_adapter].warn(warning) ;
 		}) ;
-		self.state[config.cec_adapter].on(CECMonitor.EVENTS._NOHDMICORD,function() {
-			self.nodes[config.cec_adapter].warn('HDMI Cord has been disconnected') ;
+		self.monitor[config.cec_adapter].on(CECMonitor.EVENTS._NOHDMICORD,function() {
+			self.node[config.cec_adapter].warn('HDMI Cord has been disconnected') ;
 		}) ;
-		self.state[config.cec_adapter].on(CECMonitor.EVENTS._ERROR,function(error) {
-			self.nodes[config.cec_adapter].error(error) ;
+		self.monitor[config.cec_adapter].on(CECMonitor.EVENTS._ERROR,function(error) {
+			self.node[config.cec_adapter].error(error) ;
 		}) ;
-		self.state[config.cec_adapter].on(CECMonitor.EVENTS._NOSERIALPORT,function() {
-			self.nodes[config.cec_adapter].error('No serial port') ;
+		self.monitor[config.cec_adapter].on(CECMonitor.EVENTS._NOSERIALPORT,function() {
+			self.node[config.cec_adapter].error('No serial port') ;
 		}) ;
 	}
 	return cec_adapter ;
 } ;
 
 MonManager.prototype.get = function(cec_adapter) {
-	return this.state[cec_adapter] ;
+	return this.monitor[cec_adapter] ;
 } ;
 
-MonManager.prototype.delete = function (cec_adapter) {
-	if(this.state.hasOwnProperty(cec_adapter)) {
-		this.state[cec_adapter].Stop() ;
-		delete this.state[cec_adapter] ;
+MonManager.prototype.delete = function (cec_adapter,done) {
+	if(--this.count[cec_adapter] === 0) {
+		delete this.count[cec_adapter] ;
+		this.monitor[cec_adapter].removeAllListeners(CECMonitor.EVENTS._STOP) ;
+		this.monitor[cec_adapter].once(CECMonitor.EVENTS._STOP,function() { done() ;}) ;
+		this.monitor[cec_adapter].Stop() ;
+		delete this.monitor[cec_adapter] ;
 		delete this.node[cec_adapter] ;
+	}
+	else {
+		done() ;
 	}
 } ;
 
@@ -114,8 +126,7 @@ module.exports = {
 			} else {
 				// This node is being restarted
 			}
-			mon.delete(config.cec_adapter) ;
-			done() ;
+			mon.delete(node.config.cec_adapter,done) ;
 		});
 
 		var ready = function() {
@@ -170,8 +181,7 @@ module.exports = {
 			} else {
 				// This node is being restarted
 			}
-			mon.delete(config.cec_adapter) ;
-			done() ;
+			mon.delete(node.config.cec_adapter,done) ;
 		});
 
 		var ready = function() {
@@ -229,8 +239,7 @@ module.exports = {
 			} else {
 				// This node is being restarted
 			}
-			mon.delete(config.cec_adapter) ;
-			done() ;
+			mon.delete(node.config.cec_adapter,done) ;
 		});
 
 		var ready = function() {
