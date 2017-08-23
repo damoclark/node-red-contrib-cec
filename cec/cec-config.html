@@ -58,3 +58,25 @@
 				</ul>
     </div>
 </script>
+
+<!-- Next, some simple help text is provided for the node.                   -->
+<script type="text/x-red" data-help-name="cec-config">
+	<!-- data-help-name identifies the node type this help is for             -->
+	<!-- This content appears in the Info sidebar when a node is selected     -->
+	<!-- The first <p> is used as the pop-up tool tip when hovering over a    -->
+	<!-- node in the palette.                                                 -->
+	<p>Provide connection details for connecting to the cec serial port</p>
+	<p><strong>OSD Name</strong> Is the name assigned to the hdmi device attached
+	to the hdmi switch/bus. If a display such as a television sets this device
+	as the active source, and if it supports it, this name will be displayed
+	as a label for the device.</p>
+	<p><strong>CEC Com Port</strong> specifies the name of the serial port to
+	connect with to communicate on the HDMI CEC bus.  If left blank, a search is
+	performed and the first found port is used.  The port name on a Raspberry Pi is "RPI"</p>
+	<p><strong>HDMI Port</strong> refers to the physical HDMI socket on this device,
+	and is relevant when there is more than one.  Otherwise it can be left blank.</p>
+	<p><strong>Player, Recorder, Tuner, Audio</strong> are different source classes
+	that can provide images to display on the output device (.i.e television/projector).
+	For this device, select all classes that apply, or simply choose "Player".</p>
+</script>
+
