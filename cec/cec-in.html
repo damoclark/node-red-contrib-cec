@@ -535,7 +535,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<h3>Direction</h3>
 		<div>
 			<div class="form-row">
-				<p><i class="fa fa-filter" aria-hidden="true"></i> Emit Events sent from this adapter and/or to this adapter:</p>
+				<p><i class="fa fa-filter" aria-hidden="true"></i> Emit Events sent to the bus from this adapter and/or from the bus to this adapter:</p>
 				<ul class="cec-checkbox-grid"> <!-- TODO The CSS here needs fixing so it all aligns -->
 					<li>
 						<input type="checkbox" id="node-input-flow_in" value="IN" title="Used by a new source to indicate that it has started to transmit a stream OR used in response to a "Request Active Source" (Brodcast). This message is used in several features : One Touch Play,Routing Control"/>
@@ -562,21 +562,35 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <!-- Next, some simple help text is provided for the node.                   -->
 <script type="text/x-red" data-help-name="cec-in">
-   <!-- data-help-name identifies the node type this help is for             -->
-   <!-- This content appears in the Info sidebar when a node is selected     -->
-   <!-- The first <p> is used as the pop-up tool tip when hovering over a    -->
-   <!-- node in the palette.                                                 -->
-   <p>Input node that receives CEC messages from a HDMI bus.</p>
-   <p>Outputs an object called <code>msg</code> containing <code>msg.name</code>
-	 and <code>msg.payload</code>. <code>msg.payload</code> is an object with
-	 the following example generic structure and values according to the <u><a target='_blank'
-   href='http://www.cec-o-matic.com/'>cec-o-matic.com documentation</a></u>.</p>
-   <pre>
+	<!-- data-help-name identifies the node type this help is for             -->
+	<!-- This content appears in the Info sidebar when a node is selected     -->
+	<!-- The first <p> is used as the pop-up tool tip when hovering over a    -->
+	<!-- node in the palette.                                                 -->
+	<p>Input node that receives CEC messages from a HDMI bus.</p>
+	<h3>Overview</h3>
+	<p>The cec-in input node receives CEC messages from the HDMI CEC bus for the
+	adapter. The payload property of the outbound msg contains an object with
+	the following example generic structure and values according to the
+	<a target='_blank'
+	href='http://www.cec-o-matic.com/'>cec-o-matic.com documentation</a>. </p>
+	<pre>
 {
   "type": "TRAFFIC", "number": "82784", "flow": "IN",
   "source": 1, "target": 4, "opcode": 144, "args": [0],
   "event": "REPORT_POWER_STATUS",
   "data": {"val": 0, "str": "ON"}
 }</pre>
+	<h3>CEC Adapter</h3>
+	<p>Select the Adapter to use, or create a new adapter configuration by
+	clicking on the pencil icon.</p>
+	<h3>Events</h3>
+	<p>You may specify which events that are sent or received on the HDMI CEC
+	bus to send from this node.  You can select all events using the button
+	at the bottom of the list.</p>
+	<h3>Direction</h3>
+	<p>An inbound CEC Code is one that has been sent by another device on the
+	HDMI CEC bus, while an outbound CEC Code is one that has been sent by this
+	CEC adapter onto the bus.  You can send events from either direction, or
+	both.</p>
 </script>
 
