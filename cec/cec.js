@@ -25,7 +25,7 @@
 
 "use strict" ;
 // require any external libraries we may need....
-var c = require('@senzil/cec-monitor') ;
+var c = require('@damoclark/cec-monitor') ;
 var pathval = require('pathval') ;
 
 var CEC = c.CEC ;
