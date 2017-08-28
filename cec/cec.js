@@ -257,22 +257,63 @@ module.exports = {
 
 		// Do we update the flow property on receipt of every opcode from CEC bus?
 		if(node.config.flow) {
+			// Initialise flow state information
+			var flowContext = node.context().flow ;
+			flowContext.set(node.config.flow_name,{devices:monitor.GetState(), active_source:monitor.GetActiveSource}) ;
 			monitor.on(CECMonitor.EVENTS._OPCODE,function(packet) {
 					var s = monitor.GetState() ;
-					var flowContext = node.context().flow ;
-					flowContext.set(node.config.flow_name,s) ;
+					var a = monitor.GetActiveSource() ;
+					flowContext.set(node.config.flow_name,{devices:s, active_source: a}) ;
 			}) ;
 		}
 
 		node.on('input', function(msg) {
 
 			// What information from the state do they want, and send it on
-			var address = (msg.address || msg.address === 0) ? msg.address : undefined ;
-			var state = monitor.GetState(address) ;
+			var command = pathval.getPathValue(msg,'command') ;
+			if(typeof command === 'string')
+				command = command.toLocaleLowerCase() ;
+
+			var address = pathval.getPathValue(msg,'address') ;
 
 			// Update our message
-			pathval.setPathValue(msg,node.config.output,state) ;
-			node.send(msg) ;
+			switch (command) {
+				case undefined: // call GetState by default if no command
+				case 'getstate':
+					pathval.setPathValue(msg, node.config.output, monitor.GetState(address));
+					break;
+				case 'getphysicaladdress':
+					pathval.setPathValue(msg, node.config.output, monitor.GetPhysicalAddress());
+					break;
+				case 'getlogicaladdress':
+					pathval.setPathValue(msg, node.config.output, monitor.GetLogicalAddress());
+					break;
+				case 'getlogicaladdresses':
+					pathval.setPathValue(msg, node.config.output, monitor.GetLogicalAddresses());
+					break;
+				case 'logical2physical':
+					pathval.setPathValue(msg, node.config.output, monitor.Logical2Physical(address));
+					break;
+				case 'physical2logical':
+					pathval.setPathValue(msg, node.config.output, monitor.Physical2Logical(address));
+					break;
+				case 'getosdname':
+					pathval.setPathValue(msg, node.config.output, monitor.GetOSDName(address));
+					break;
+				case 'getpowerstatus':
+					pathval.setPathValue(msg, node.config.output, monitor.GetPowerStatus(address));
+					break;
+				case 'getpowerstatusname':
+					pathval.setPathValue(msg, node.config.output, monitor.GetPowerStatusName(address));
+					break;
+				case 'getactivesource':
+					pathval.setPathValue(msg, node.config.output, monitor.GetActiveSource());
+					break;
+				default:
+					node.warn('Invalid "command" property value: ', msg.command);
+					return ;
+			}
+			node.send(msg);
 		}) ;
 
 	}

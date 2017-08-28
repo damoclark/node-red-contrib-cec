@@ -26,7 +26,7 @@
   "author": "Damien Clark",
   "license": "GPL-3.0",
   "dependencies": {
-    "@damoclark/cec-monitor": "^1.0.10-release.2",
+    "@damoclark/cec-monitor": "^1.0.10-release.3",
     "pathval": "^1.1.0"
   }
 }

@@ -1,0 +1,644 @@
+[
+	{
+		"id": "3d3af9ba.683ba6",
+		"type": "tab",
+		"label": "CEC Example Flow",
+		"disabled": false,
+		"info": ""
+	},
+	{
+		"id": "fafcacda.b371a8",
+		"type": "cec-in",
+		"z": "3d3af9ba.683ba6",
+		"cec_adapter": "dc0e2171.b9fa08",
+		"name": "RPI HDMI CEC Outbound Packets",
+		"flow_in": false,
+		"flow_out": true,
+		"select_all": "false",
+		"active_source": true,
+		"image_view_on": true,
+		"text_view_on": true,
+		"inactive_source": true,
+		"request_active_source": true,
+		"routing_change": true,
+		"routing_information": true,
+		"set_stream_path": true,
+		"standby": true,
+		"record_off": true,
+		"record_on": true,
+		"record_status": true,
+		"record_tv_screen": true,
+		"clear_analogue_timer": true,
+		"clear_digital_timer": true,
+		"clear_external_timer": true,
+		"set_analogue_timer": true,
+		"set_digital_timer": true,
+		"set_external_timer": true,
+		"set_timer_program_title": true,
+		"timer_cleared_status": true,
+		"timer_status": true,
+		"cec_version": true,
+		"get_cec_version": true,
+		"give_physical_address": true,
+		"get_menu_language": true,
+		"report_physical_address": true,
+		"set_menu_language": true,
+		"deck_control": true,
+		"deck_status": true,
+		"give_deck_status": true,
+		"play": true,
+		"give_tuner_device_status": true,
+		"select_analogue_service": true,
+		"select_digital_service": true,
+		"tuner_device_status": true,
+		"tuner_step_decrement": true,
+		"tuner_step_increment": true,
+		"device_vendor_id": true,
+		"give_device_vendor_id": true,
+		"vendor_command": true,
+		"vendor_command_with_id": true,
+		"vendor_remote_button_down": true,
+		"vendor_remote_button_up": true,
+		"set_osd_string": true,
+		"give_osd_name": true,
+		"set_osd_name": true,
+		"menu_request": true,
+		"menu_status": true,
+		"user_control_pressed": true,
+		"user_control_release": true,
+		"give_device_power_status": true,
+		"report_power_status": true,
+		"feature_abort": true,
+		"abort": true,
+		"give_audio_status": true,
+		"give_system_audio_mode_status": true,
+		"report_audio_status": true,
+		"set_system_audio_mode": true,
+		"system_audio_mode_request": true,
+		"system_audio_mode_status": true,
+		"set_audio_rate": true,
+		"start_arc": true,
+		"report_arc_started": true,
+		"report_arc_ended": true,
+		"request_arc_start": true,
+		"request_arc_end": true,
+		"end_arc": true,
+		"cdc": true,
+		"none": true,
+		"x": 737.5,
+		"y": 119.25,
+		"wires": [
+			[
+				"54a38fd4.ffa41"
+			]
+		]
+	},
+	{
+		"id": "54a38fd4.ffa41",
+		"type": "debug",
+		"z": "3d3af9ba.683ba6",
+		"name": "msg.payload",
+		"active": true,
+		"console": "false",
+		"complete": "payload",
+		"x": 1060,
+		"y": 118,
+		"wires": []
+	},
+	{
+		"id": "a12ba339.be9dc8",
+		"type": "cec-in",
+		"z": "3d3af9ba.683ba6",
+		"cec_adapter": "dc0e2171.b9fa08",
+		"name": "RPI HDMI CEC Inbound Packets",
+		"flow_in": true,
+		"flow_out": false,
+		"select_all": "false",
+		"active_source": true,
+		"image_view_on": true,
+		"text_view_on": true,
+		"inactive_source": true,
+		"request_active_source": true,
+		"routing_change": true,
+		"routing_information": true,
+		"set_stream_path": true,
+		"standby": true,
+		"record_off": true,
+		"record_on": true,
+		"record_status": true,
+		"record_tv_screen": true,
+		"clear_analogue_timer": true,
+		"clear_digital_timer": true,
+		"clear_external_timer": true,
+		"set_analogue_timer": true,
+		"set_digital_timer": true,
+		"set_external_timer": true,
+		"set_timer_program_title": true,
+		"timer_cleared_status": true,
+		"timer_status": true,
+		"cec_version": true,
+		"get_cec_version": true,
+		"give_physical_address": true,
+		"get_menu_language": true,
+		"report_physical_address": true,
+		"set_menu_language": true,
+		"deck_control": true,
+		"deck_status": true,
+		"give_deck_status": true,
+		"play": true,
+		"give_tuner_device_status": true,
+		"select_analogue_service": true,
+		"select_digital_service": true,
+		"tuner_device_status": true,
+		"tuner_step_decrement": true,
+		"tuner_step_increment": true,
+		"device_vendor_id": true,
+		"give_device_vendor_id": true,
+		"vendor_command": true,
+		"vendor_command_with_id": true,
+		"vendor_remote_button_down": true,
+		"vendor_remote_button_up": true,
+		"set_osd_string": true,
+		"give_osd_name": true,
+		"set_osd_name": true,
+		"menu_request": true,
+		"menu_status": true,
+		"user_control_pressed": true,
+		"user_control_release": true,
+		"give_device_power_status": true,
+		"report_power_status": true,
+		"feature_abort": true,
+		"abort": true,
+		"give_audio_status": true,
+		"give_system_audio_mode_status": true,
+		"report_audio_status": true,
+		"set_system_audio_mode": true,
+		"system_audio_mode_request": true,
+		"system_audio_mode_status": true,
+		"set_audio_rate": true,
+		"start_arc": true,
+		"report_arc_started": true,
+		"report_arc_ended": true,
+		"request_arc_start": true,
+		"request_arc_end": true,
+		"end_arc": true,
+		"cdc": true,
+		"none": true,
+		"x": 737.5,
+		"y": 40.25,
+		"wires": [
+			[
+				"3cac4eed.132eda"
+			]
+		]
+	},
+	{
+		"id": "3cac4eed.132eda",
+		"type": "debug",
+		"z": "3d3af9ba.683ba6",
+		"name": "",
+		"active": true,
+		"console": "false",
+		"complete": "false",
+		"x": 1054.5,
+		"y": 45.5,
+		"wires": []
+	},
+	{
+		"id": "f7eff667.b2875",
+		"type": "cec-out",
+		"z": "3d3af9ba.683ba6",
+		"cec_adapter": "dc0e2171.b9fa08",
+		"name": "RPI HDMI CEC Send",
+		"x": 482,
+		"y": 39,
+		"wires": []
+	},
+	{
+		"id": "7e1e9f96.867cf",
+		"type": "inject",
+		"z": "3d3af9ba.683ba6",
+		"name": "power on TV",
+		"topic": "",
+		"payload": "{\"source\":null,\"target\":0,\"opcode\":\"IMAGE_VIEW_ON\"}",
+		"payloadType": "json",
+		"repeat": "",
+		"crontab": "",
+		"once": false,
+		"x": 138.5,
+		"y": 44.25,
+		"wires": [
+			[
+				"f7eff667.b2875"
+			]
+		]
+	},
+	{
+		"id": "b60b48a8.14e1f8",
+		"type": "cec-state",
+		"z": "3d3af9ba.683ba6",
+		"cec_adapter": "dc0e2171.b9fa08",
+		"name": "RPI HDMI CEC Device State",
+		"output": "payload",
+		"flow_name": "cec",
+		"flow": true,
+		"scan": false,
+		"x": 874.5,
+		"y": 377.75,
+		"wires": [
+			[
+				"41758f98.41f7e8"
+			]
+		]
+	},
+	{
+		"id": "41758f98.41f7e8",
+		"type": "debug",
+		"z": "3d3af9ba.683ba6",
+		"name": "",
+		"active": true,
+		"console": "false",
+		"complete": "true",
+		"x": 1094.5,
+		"y": 402.5,
+		"wires": []
+	},
+	{
+		"id": "b07342d1.a260d8",
+		"type": "inject",
+		"z": "3d3af9ba.683ba6",
+		"name": "Get CEC Device State for address 0.0.0.0 (TV)",
+		"topic": "",
+		"payload": "{\"address\":\"0.0.0.0\",\"command\":\"getstate\"}",
+		"payloadType": "json",
+		"repeat": "",
+		"crontab": "",
+		"once": false,
+		"x": 204.5,
+		"y": 248.25,
+		"wires": [
+			[
+				"c6b81681.37043"
+			]
+		]
+	},
+	{
+		"id": "c6b81681.37043",
+		"type": "change",
+		"z": "3d3af9ba.683ba6",
+		"name": "set properties for cec-state",
+		"rules": [
+			{
+				"t": "move",
+				"p": "payload.address",
+				"pt": "msg",
+				"to": "address",
+				"tot": "msg"
+			},
+			{
+				"t": "move",
+				"p": "payload.command",
+				"pt": "msg",
+				"to": "command",
+				"tot": "msg"
+			}
+		],
+		"action": "",
+		"property": "",
+		"from": "",
+		"to": "",
+		"reg": false,
+		"x": 545.5,
+		"y": 429.75,
+		"wires": [
+			[
+				"b60b48a8.14e1f8"
+			]
+		]
+	},
+	{
+		"id": "785fc715.dcafe",
+		"type": "function",
+		"z": "3d3af9ba.683ba6",
+		"name": "Get CEC Device State & Active Source from flow context ",
+		"func": "// See RPI HDMI CEC Device State Node for \n// where the context property name 'cec' is\n// specified for the flow\nvar cec = flow.get('cec') ;\nmsg.payload = {\n  devices: cec.devices,\n  active_source: cec.active_source\n} ;\nreturn msg;\n",
+		"outputs": 1,
+		"noerr": 0,
+		"x": 631.5,
+		"y": 591.75,
+		"wires": [
+			[
+				"c2de08db.483da8"
+			]
+		]
+	},
+	{
+		"id": "6dc3762e.9326b",
+		"type": "inject",
+		"z": "3d3af9ba.683ba6",
+		"name": "Empty Injection",
+		"topic": "",
+		"payload": "",
+		"payloadType": "date",
+		"repeat": "",
+		"crontab": "",
+		"once": false,
+		"x": 258.5,
+		"y": 643.25,
+		"wires": [
+			[
+				"785fc715.dcafe"
+			]
+		]
+	},
+	{
+		"id": "c2de08db.483da8",
+		"type": "debug",
+		"z": "3d3af9ba.683ba6",
+		"name": "",
+		"active": true,
+		"console": "false",
+		"complete": "false",
+		"x": 938.5,
+		"y": 590.5,
+		"wires": []
+	},
+	{
+		"id": "e6616861.8c06f",
+		"type": "inject",
+		"z": "3d3af9ba.683ba6",
+		"name": "power off TV",
+		"topic": "",
+		"payload": "{\"source\":null,\"target\":\"0.0.0.0\",\"opcode\":\"STANDBY\"}",
+		"payloadType": "json",
+		"repeat": "",
+		"crontab": "",
+		"once": false,
+		"x": 138,
+		"y": 85,
+		"wires": [
+			[
+				"f7eff667.b2875"
+			]
+		]
+	},
+	{
+		"id": "b392c3a0.9ee7a8",
+		"type": "inject",
+		"z": "3d3af9ba.683ba6",
+		"name": "set active source to 1.0.0.0",
+		"topic": "",
+		"payload": "{\"source\":\"unregistered\",\"target\":\"BROADCAST\",\"opcode\":\"active_source\",\"args\":\"1.0.0.0\"}",
+		"payloadType": "json",
+		"repeat": "",
+		"crontab": "",
+		"once": false,
+		"x": 179,
+		"y": 127,
+		"wires": [
+			[
+				"f7eff667.b2875"
+			]
+		]
+	},
+	{
+		"id": "5865fb35.5111bc",
+		"type": "inject",
+		"z": "3d3af9ba.683ba6",
+		"name": "send request active source",
+		"topic": "",
+		"payload": "{\"source\":null,\"target\":\"broadcast\",\"opcode\":\"request_active_source\"}",
+		"payloadType": "json",
+		"repeat": "",
+		"crontab": "",
+		"once": false,
+		"x": 178,
+		"y": 168,
+		"wires": [
+			[
+				"f7eff667.b2875"
+			]
+		]
+	},
+	{
+		"id": "f1a90148.49c2e8",
+		"type": "inject",
+		"z": "3d3af9ba.683ba6",
+		"name": "Get Current State For All CEC Devices",
+		"topic": "",
+		"payload": "",
+		"payloadType": "str",
+		"repeat": "",
+		"crontab": "",
+		"once": false,
+		"x": 207,
+		"y": 602,
+		"wires": [
+			[
+				"c6b81681.37043"
+			]
+		]
+	},
+	{
+		"id": "f1b0b804.6c2fe",
+		"type": "inject",
+		"z": "3d3af9ba.683ba6",
+		"name": "set osd name",
+		"topic": "",
+		"payload": "{\"source\":null,\"target\":\"broadcast\",\"opcode\":\"set_osd_name\",\"args\":\"node\"}",
+		"payloadType": "json",
+		"repeat": "",
+		"crontab": "",
+		"once": false,
+		"x": 225,
+		"y": 209,
+		"wires": [
+			[
+				"f7eff667.b2875"
+			]
+		]
+	},
+	{
+		"id": "611f0585.2a303c",
+		"type": "inject",
+		"z": "3d3af9ba.683ba6",
+		"name": "Get Physical Address (me)",
+		"topic": "",
+		"payload": "{\"command\":\"getphysicaladdress\"}",
+		"payloadType": "json",
+		"repeat": "",
+		"crontab": "",
+		"once": false,
+		"x": 234,
+		"y": 358,
+		"wires": [
+			[
+				"c6b81681.37043"
+			]
+		]
+	},
+	{
+		"id": "ebe4c398.22f19",
+		"type": "inject",
+		"z": "3d3af9ba.683ba6",
+		"name": "Get Logical Address (me)",
+		"topic": "",
+		"payload": "{\"command\":\"getlogicaladdress\"}",
+		"payloadType": "json",
+		"repeat": "",
+		"crontab": "",
+		"once": false,
+		"x": 237,
+		"y": 393,
+		"wires": [
+			[
+				"c6b81681.37043"
+			]
+		]
+	},
+	{
+		"id": "d8c3625e.1912a8",
+		"type": "inject",
+		"z": "3d3af9ba.683ba6",
+		"name": "Get Logical Addresses (me)",
+		"topic": "",
+		"payload": "{\"command\":\"getlogicaladdresses\"}",
+		"payloadType": "json",
+		"repeat": "",
+		"crontab": "",
+		"once": false,
+		"x": 229,
+		"y": 428,
+		"wires": [
+			[
+				"c6b81681.37043"
+			]
+		]
+	},
+	{
+		"id": "d978345.8830848",
+		"type": "inject",
+		"z": "3d3af9ba.683ba6",
+		"name": "Logical to Physical (0)",
+		"topic": "",
+		"payload": "{\"command\":\"logical2physical\", \"address\": \"0\"}",
+		"payloadType": "json",
+		"repeat": "",
+		"crontab": "",
+		"once": false,
+		"x": 243,
+		"y": 462,
+		"wires": [
+			[
+				"c6b81681.37043"
+			]
+		]
+	},
+	{
+		"id": "79285de8.1a2c44",
+		"type": "inject",
+		"z": "3d3af9ba.683ba6",
+		"name": "Physical to Logical (0.0.0.0)",
+		"topic": "",
+		"payload": "{\"command\":\"physical2logical\", \"address\": \"0.0.0.0\"}",
+		"payloadType": "json",
+		"repeat": "",
+		"crontab": "",
+		"once": false,
+		"x": 222,
+		"y": 496,
+		"wires": [
+			[
+				"c6b81681.37043"
+			]
+		]
+	},
+	{
+		"id": "f8502f5.a52515",
+		"type": "inject",
+		"z": "3d3af9ba.683ba6",
+		"name": "Get OSD Name (0x0)",
+		"topic": "",
+		"payload": "{\"command\":\"getosdname\", \"address\": \"0x0\"}",
+		"payloadType": "json",
+		"repeat": "",
+		"crontab": "",
+		"once": false,
+		"x": 244,
+		"y": 566,
+		"wires": [
+			[
+				"c6b81681.37043"
+			]
+		]
+	},
+	{
+		"id": "2f64ea7a.0d5356",
+		"type": "inject",
+		"z": "3d3af9ba.683ba6",
+		"name": "Get Power Status Name (tv)",
+		"topic": "",
+		"payload": "{\"command\":\"getpowerstatusname\", \"address\": \"tv\"}",
+		"payloadType": "json",
+		"repeat": "",
+		"crontab": "",
+		"once": false,
+		"x": 241,
+		"y": 284,
+		"wires": [
+			[
+				"c6b81681.37043"
+			]
+		]
+	},
+	{
+		"id": "4df0dcbf.ad0fdc",
+		"type": "inject",
+		"z": "3d3af9ba.683ba6",
+		"name": "Get Active Source",
+		"topic": "",
+		"payload": "{\"command\":\"getactivesource\"}",
+		"payloadType": "json",
+		"repeat": "",
+		"crontab": "",
+		"once": false,
+		"x": 251,
+		"y": 531,
+		"wires": [
+			[
+				"c6b81681.37043"
+			]
+		]
+	},
+	{
+		"id": "bc7a9c7d.d6973",
+		"type": "inject",
+		"z": "3d3af9ba.683ba6",
+		"name": "Get Power Status (tv)",
+		"topic": "",
+		"payload": "{\"command\":\"getpowerstatus\", \"address\": \"tv\"}",
+		"payloadType": "json",
+		"repeat": "",
+		"crontab": "",
+		"once": false,
+		"x": 248,
+		"y": 320,
+		"wires": [
+			[
+				"c6b81681.37043"
+			]
+		]
+	},
+	{
+		"id": "dc0e2171.b9fa08",
+		"type": "cec-config",
+		"z": "",
+		"OSDname": "node-red",
+		"comport": "",
+		"hdmiport": "1",
+		"player": true,
+		"recorder": false,
+		"tuner": false,
+		"audio": false
+	}
+]

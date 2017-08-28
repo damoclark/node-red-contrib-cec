@@ -122,17 +122,90 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 	as shown below:</p>
 	<pre>
 msg = {
+  "command": "getstate",
   "address": "1.0.0.0"
 }
    </pre>
    <p>Or:</p>
    <pre>
 msg = {
+  "command": "GETSTATE",
   "address": "4"
 }
 	</pre>
+	
+	<p>Or using the equivalent logical address name - <code>playbackdevice1</code> device:</p>
+
+  <pre>
+msg = {
+  "command": "GETSTATE",
+  "address": "playbackdevice1"
+}
+  </pre>
+
+	<p>Following is the complete list of device names and their corresponding logical address.
+	Remember that a device can register more than one type of logical address.</p>
+
+	<ul>
+		<li>UNKNOWN: -1</li>
+		<li>TV: 0</li>
+		<li>RECORDINGDEVICE1: 1</li>
+		<li>RECORDINGDEVICE2: 2</li>
+		<li>TUNER1: 3</li>
+		<li>PLAYBACKDEVICE1: 4</li>
+		<li>AUDIOSYSTEM: 5</li>
+		<li>TUNER2: 6</li>
+		<li>TUNER3: 7</li>
+		<li>PLAYBACKDEVICE2: 8</li>
+		<li>RECORDINGDEVICE3: 9</li>
+		<li>TUNER4: 10</li>
+		<li>PLAYBACKDEVICE3: 11</li>
+		<li>RESERVED1: 12</li>
+		<li>RESERVED2: 13</li>
+		<li>FREEUSE: 14</li>
+		<li>UNREGISTERED: 15</li>
+		<li>BROADCAST: 15
+	</ul>
+
+  <p>If <code>command</code> is omitted, the default command is <code>getstate</code>.
+  There are many other specific commands, such as:</p>
+
+  <pre>
+{
+    "command": "getpowerstatusname",
+    "address": "tv"
+}
+	</pre>
+
+	<p>which will return a string representation of the power status of the TV, like <code>STANDBY</code>.</p>
+
+	<p>Other commands include:</p>
+
+	<ul>
+		<li><strong>getphysicaladdress</strong> - Get the physical address for this cec adapter</li>
+		<li><strong>getlogicaladdress</strong> - Get the primary logical address for this cec adapter</li>
+		<li><strong>getlogicaladdresses</strong> - Get all the logical addresses for this cec adapter</li>
+		<li><strong>logical2physical</strong> - Convert the logical address to its physical address (if known)</li>
+		<li><strong>physical2logical</strong> - Convert the physical address to its logical address (if known)</li>
+		<li><strong>getosdname</strong> - Get the on screen name (if known) for the given address e.g. <code>TV</code></li>
+		<li><strong>getpowerstatus</strong> - Get the power status code for the given address (if known) e.g. <code>0</code></li>
+		<li><strong>getpowerstatusname</strong> - Give the power status name for the given address (if known) e.g. <code>STANDBY</code></li>
+		<li><strong>getactivesource</strong> - Get the physical address of the active source (if known) e.g. <code>0.0.0.0</code></li>
+	</ul>
+
+	<p>Note, if any of the queries above are unknown, then <code>null</code> is returned.</p>
+
 	<h3>Output Format</h3>
-	<p>If a specific address is requested, the following js data structure shall be returned:</p>
+	<p>If a specific address is requested for <code>getstate</code>, as follows:</p>
+	<pre>
+msg = {
+  "command": "getstate",
+  "address": "0"
+}
+	</pre>
+
+	<p>then following js data structure shall be returned:</p>
+
 	<pre>
 {
   "physical": "0.0.0.0",
@@ -140,7 +213,7 @@ msg = {
   "osdname": "TV"
 }
 	</pre>
-	<p>If a value is not known, then it will either be set to null, or an empty string:</p>
+	<p>If a value for a specific address is not known, then it will either be set to null, or an empty string:</p>
 	<pre>
 {
   "physical": null,
@@ -148,8 +221,7 @@ msg = {
   "osdname": ""
 }
 	</pre>
-	<p>If <code>msg.address</code> is omitted, then all devices' state is returned as
-	an object keyed by logical address for all devices, as per below:</p>
+	<p>For <code>getsource</code>, if <code>msg.address</code> is omitted, then all devices' state is returned as an object keyed by logical address for all devices, as per below:</p>
 	<pre>
 {
   "0": {
@@ -199,13 +271,24 @@ msg = {
 	other node in the flow, including function nodes.  You can specify the property name to use to store
 	the state information, which by default, is <code>cec</code>. To access the state data from a function
 	node, use the following syntax:</p>
+
 	<pre>
 var cec = flow.get('cec') ;
-msg.payload = cec[0].osdname ;
+msg.payload = cec.devices[0].osdname ;
 return msg ;
 	</pre>
+
 	<p>This will retrieve the on screen display name for the TV (logical address 0) and store it in the payload
 	of the outgoing message from the function node.</p>
+
+	<pre>
+var cec = flow.get('cec') ;
+msg.payload = cec.active_source ;
+return msg ;
+	</pre>
+
+	<p>This will retrieve the physical address of the currently known active source device.</p>
+
 	<h3>CEC Bus Scan</h3>
 	<p>Finally, you can ask the cec-state node to perform a bus scan on startup to try and identify all the
 	devices attached to the display device (on the CEC bus).  Keep in mind that if you have non-CEC enabled
