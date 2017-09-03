@@ -70,7 +70,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 <!-- data-template-name identifies the node type this is for              -->
 <script type="text/x-red" data-template-name="cec-state">
-	
+
+	<style>
+		.cec-checkbox-grid li {
+				display: inline-block;
+				width: 40%;
+		}
+
+		.cec-checkbox {
+				display: inline-block !important;
+				width: auto !important;
+				vertical-align: top !important;
+		}
+
+		.cec-checkbox-label {
+				width: 70% !important;
+		}
+	</style>
+
 	<!-- Each of the div.form-row elements creates a field in the edit dialog.-->
 	<!-- Generally, there should be an input for each property of the node.   -->
 	<!-- The for and id attributes identify the corresponding property        -->
@@ -79,21 +96,24 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 	<div class="form-row">
 		<p><i class="fa fa-filter" aria-hidden="true"></i> Select CEC Adapter to use</p>
-		<label for="node-input-cec_adapter"><i class="fa fa-tag"></i> CEC Adapter</label>
+		<label for="node-input-cec_adapter">CEC Adapter</label>
 		<input type="text" id="node-input-cec_adapter" placeholder="cec_adapter">
 	</div>
 	<div class="form-row">
-		<label for="node-input-flow"><i class="fa fa-tag"></i> Store in Flow</label>
-		<input type="checkbox" id="node-input-flow"/>
+		<input type="checkbox" class="cec-checkbox" id="node-input-flow"/>
+		<label class="cec-checkbox-label" for="node-input-flow">Store in Flow</label>
+	</div>
+	<div class="form-row">
+		<label for="node-input-flow_name">Property Name</label>
 		<input type="text" id="node-input-flow_name" placeholder="Property name"/>
 	</div>
 	<div class="form-row">
-		<label for="node-input-output"><i class="fa fa-tag"></i> Output to: msg.</label>
+		<label for="node-input-output"><i class="fa fa-envelope"></i> Output Property: msg.</label>
 		<input type="text" id="node-input-output" placeholder="Property name"/>
 	</div>
 	<div class="form-row">
-		<label for="node-input-scan"><i class="fa fa-tag"></i> Scan on startup</label>
-		<input type="checkbox" id="node-input-scan"/>
+		<input type="checkbox" class="cec-checkbox" id="node-input-scan"/>
+		<label class="cec-checkbox-label" for="node-input-scan">Scan on startup</label>
 	</div>
 	<!-- By convention, most nodes have a 'name' property. The following div -->
 	<!-- provides the necessary field. Should always be the last option      -->

@@ -21,7 +21,17 @@
 	<style>
 		.cec-checkbox-grid li {
 				display: inline-block;
-				width: 50%;
+				width: 40%;
+		}
+
+		.cec-checkbox {
+				display: inline-block !important;
+				width: auto !important;
+				vertical-align: top !important;
+		}
+
+		.cec-checkbox-label {
+				width: 70% !important;
 		}
 	</style>
 
@@ -40,20 +50,20 @@
     <div class="form-row">
 				<ul class="cec-checkbox-grid"> <!-- TODO The CSS here needs fixing so it all aligns -->
 					<li>
-						<input type="checkbox" id="node-config-input-player" value="PLAYER" placeholder="PLAYER"/>
-						<label for="node-config-input-player">PLAYER</label>
+						<input type="checkbox" class="cec-checkbox" id="node-config-input-player" value="PLAYER" placeholder="PLAYER"/>
+						<label class="cec-checkbox-label" for="node-config-input-player">PLAYER</label>
 					</li>
 					<li>
-						<input type="checkbox" id="node-config-input-recorder" value="RECORDER" placeholder="RECORDER"/>
-						<label for="node-config-input-recorder">RECORDER</label>
+						<input type="checkbox" class="cec-checkbox" id="node-config-input-recorder" value="RECORDER" placeholder="RECORDER"/>
+						<label class="cec-checkbox-label" for="node-config-input-recorder">RECORDER</label>
 					</li>
 					<li>
-						<input type="checkbox" id="node-config-input-tuner" value="TUNER" placeholder="TUNER"/>
-						<label for="node-config-input-tuner">TUNER</label>
+						<input type="checkbox" class="cec-checkbox" id="node-config-input-tuner" value="TUNER" placeholder="TUNER"/>
+						<label class="cec-checkbox-label" for="node-config-input-tuner">TUNER</label>
 					</li>
 					<li>
-						<input type="checkbox" id="node-config-input-audio" value="AUDIO" placeholder="AUDIO"/>
-						<label for="node-config-input-audio">AUDIO</label>
+						<input type="checkbox" class="cec-checkbox" id="node-config-input-audio" value="AUDIO" placeholder="AUDIO"/>
+						<label class="cec-checkbox-label" for="node-config-input-audio">AUDIO</label>
 					</li>
 				</ul>
     </div>

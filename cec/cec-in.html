@@ -209,6 +209,16 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				display: inline-block;
 				width: 40%;
 		}
+
+		.cec-checkbox {
+				display: inline-block !important;
+				width: auto !important;
+				vertical-align: top !important;
+		}
+		
+		.cec-checkbox-label {
+				width: 70% !important;
+		}
 	</style>
 
 	<!-- Each of the div.form-row elements creates a field in the edit dialog.-->
@@ -230,7 +240,7 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 		<h3>CEC Adapter</h3>
 		<div class="form-row">
 			<p><i class="fa fa-filter" aria-hidden="true"></i> Select CEC Adapter to use</p>
-			<label for="node-input-cec_adapter"><i class="fa fa-tag"></i> CEC Adapter</label>
+			<label for="node-input-cec_adapter">CEC Adapter</label>
 			<input type="text" id="node-input-cec_adapter" placeholder="search">
 		</div>
 		<h3>Events</h3>
@@ -240,286 +250,286 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 			<div class="form-row">
 				<p><i class="fa fa-filter" aria-hidden="true"></i> Select CEC Events to Emit:</p>
 				<ul class="cec-checkbox-grid cec-events"> <!-- TODO The CSS here needs fixing so it all aligns -->
-					<li>
-						<input type="checkbox" id="node-input-active_source" value="ACTIVE_SOURCE" title="Used by a new source to indicate that it has started to transmit a stream OR used in response to a "Request Active Source" (Brodcast). This message is used in several features : One Touch Play,Routing Control"/>
-						<label for="node-active_source">ACTIVE_SOURCE</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-image_view_on" value="IMAGE_VIEW_ON" title="Sent by a source device to the TV whenever it enters the active state (alternatively it may send "Text View On") (Directly addressed)"/>
-						<label for="node-image_view_on">IMAGE_VIEW_ON</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-text_view_on" value="TEXT_VIEW_ON" title="As "Image View On", but should also remove any text, menus and PIP windows from the TV’s display (Directly addressed)"/>
-						<label for="node-text_view_on">TEXT_VIEW_ON</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-inactive_source" value="INACTIVE_SOURCE" title="Used by the currently active source to inform the TV that it has no video to be presented to the user, or is going into standby as the result of a local user command on the device (Directly addressed)"/>
-						<label for="node-inactive_source">INACTIVE_SOURCE</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-request_active_source" value="REQUEST_ACTIVE_SOURCE" title="Used by a new device to discover the status of the system (Broadcast)"/>
-						<label for="node-request_active_source">REQUEST_ACTIVE_SOURCE</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-routing_change" value="ROUTING_CHANGE" title="Sent by a CEC Switch when it is manually switched to inform all other devices on the network that the active route below the switch has changed (Broadcast)"/>
-						<label for="node-routing_change">ROUTING_CHANGE</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-routing_information" value="ROUTING_INFORMATION" title="Sent by a CEC Switch to indicate the active route below the switch (Broadcast)"/>
-						<label for="node-routing_information">ROUTING_INFORMATION</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-set_stream_path" value="SET_STREAM_PATH" title="Used by the TV to request a streaming path from the specified address (Broadcast)"/>
-						<label for="node-set_stream_path">SET_STREAM_PATH</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-standby" value="STANDBY" title="Switches on or all devices into standby mode. Can be used a broadcast message or be addressed to a specific device (Broadcast or Directly addressed)"/>
-						<label for="node-standby">STANDBY</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-record_off" value="RECORD_OFF" title="Requests a device to stop a recording (Directly addressed)"/>
-						<label for="node-record_off">RECORD_OFF</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-record_on" value="RECORD_ON" title="Attempt to record the specified source (Directly addressed). This message is used in several features : One Touch Record,Tuner Control"/>
-						<label for="node-record_on">RECORD_ON</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-record_status" value="RECORD_STATUS" title="Used by a Recording Device to inform the initiator of the message "Record On" about its status (Directly addressed)"/>
-						<label for="node-record_status">RECORD_STATUS</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-record_tv_screen" value="RECORD_TV_SCREEN" title="Request by the Recording Device to record the presently displayed source (Directly addressed)"/>
-						<label for="node-record_tv_screen">RECORD_TV_SCREEN</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-clear_analogue_timer" value="CLEAR_ANALOGUE_TIMER" title="Used to clear an Analogue timer block of a device (Directly addressed)"/>
-						<label for="node-clear_analogue_timer">CLEAR_ANALOGUE_TIMER</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-clear_digital_timer" value="CLEAR_DIGITAL_TIMER" title="Used to clear a Digital timer block of a device (Directly addressed)"/>
-						<label for="node-clear_digital_timer">CLEAR_DIGITAL_TIMER</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-clear_external_timer" value="CLEAR_EXTERNAL_TIMER" title="Used to clear an External timer block of a device (Directly addressed)"/>
-						<label for="node-clear_external_timer">CLEAR_EXTERNAL_TIMER</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-set_analogue_timer" value="SET_ANALOGUE_TIMER" title="Used to set a single timer block on an Analogue Recording Device (Directly addressed)"/>
-						<label for="node-set_analogue_timer">SET_ANALOGUE_TIMER</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-set_digital_timer" value="SET_DIGITAL_TIMER" title="Used to set a single timer block on a Digital Recording Device (Directly addressed)"/>
-						<label for="node-set_digital_timer">SET_DIGITAL_TIMER</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-set_external_timer" value="SET_EXTERNAL_TIMER" title="Used to set a single timer block to record from an external device (Directly addressed)"/>
-						<label for="node-set_external_timer">SET_EXTERNAL_TIMER</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-set_timer_program_title" value="SET_TIMER_PROGRAM_TITLE" title="Used to set the name of a program associated with a timer block. Sent directly after sending a "Set Analogue Timer" or "Set Digital Timer" message. The name is then associated with that timer block (Directly addressed)"/>
-						<label for="node-set_timer_program_title">SET_TIMER_PROGRAM_TITLE</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-timer_cleared_status" value="TIMER_CLEARED_STATUS" title="Used to give the status of a "Clear Analogue Timer", "Clear Digital Timer" or "Clear External Timer" message (Directly addressed)"/>
-						<label for="node-timer_cleared_status">TIMER_CLEARED_STATUS</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-timer_status" value="TIMER_STATUS" title="Used to send timer status to the initiator of a "Status Timer" message (Directly addressed)"/>
-						<label for="node-timer_status">TIMER_STATUS</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-cec_version" value="CEC_VERSION" title="Used to indicate the supported CEC version, in response to a "Get CEC Version" (Directly addressed)"/>
-						<label for="node-cec_version">CEC_VERSION</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-get_cec_version" value="GET_CEC_VERSION" title="Used by a device to enquire which version of CEC the target supports (Directly addressed)"/>
-						<label for="node-get_cec_version">GET_CEC_VERSION</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-give_physical_address" value="GIVE_PHYSICAL_ADDRESS" title="A request to a device to return its physical address. (Directly addressed)"/>
-						<label for="node-give_physical_address">GIVE_PHYSICAL_ADDRESS</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-get_menu_language" value="GET_MENU_LANGUAGE" title="Sent by a device capable of character generation (for OSD and Menus) to a TV in order to discover the currently selected Menu language. Also used by a TV during installation to discover the currently set menu language from other devices (Directly addressed)"/>
-						<label for="node-get_menu_language">GET_MENU_LANGUAGE</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-report_physical_address" value="REPORT_PHYSICAL_ADDRESS" title="Used to inform all other devices of the mapping between physical and logical address of the initiator (Broadcast)"/>
-						<label for="node-report_physical_address">REPORT_PHYSICAL_ADDRESS</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-set_menu_language" value="SET_MENU_LANGUAGE" title="Used by a TV or another device to indicate the menu language (Broadcast)"/>
-						<label for="node-set_menu_language">SET_MENU_LANGUAGE</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-deck_control" value="DECK_CONTROL" title="Used to control a device’s media functions (Directly addressed)"/>
-						<label for="node-deck_control">DECK_CONTROL</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-deck_status" value="DECK_STATUS" title="Used to provide a deck’s status to the initiator of the "Give Deck Status" message (Directly addressed)"/>
-						<label for="node-deck_status">DECK_STATUS</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-give_deck_status" value="GIVE_DECK_STATUS" title="Used to request the status of a device, regardless of whether or not it is the current active source (Directly addressed)"/>
-						<label for="node-give_deck_status">GIVE_DECK_STATUS</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-play" value="PLAY" title="Used to control the playback behaviour of a source device (Directly addressed)"/>
-						<label for="node-play">PLAY</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-give_tuner_device_status" value="GIVE_TUNER_DEVICE_STATUS" title="Used to request the status of a tuner device (Directly addressed)"/>
-						<label for="node-give_tuner_device_status">GIVE_TUNER_DEVICE_STATUS</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-select_analogue_service" value="SELECT_ANALOGUE_SERVICE" title="Directly selects an Analogue TV service (Directly addressed)"/>
-						<label for="node-select_analogue_service">SELECT_ANALOGUE_SERVICE</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-select_digital_service" value="SELECT_DIGITAL_SERVICE" title="Directly selects a Digital TV, Radio or Data Broadcast Service (Directly addressed)"/>
-						<label for="node-select_digital_service">SELECT_DIGITAL_SERVICE</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-tuner_device_status" value="TUNER_DEVICE_STATUS" title="Used by a tuner device to provide its status to the initiator of the "Give Tuner Device Status" message (Directly addressed)"/>
-						<label for="node-tuner_device_status">TUNER_DEVICE_STATUS</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-tuner_step_decrement" value="TUNER_STEP_DECREMENT" title="Used to tune to next lowest service in a tuner’s service list. Can be used for PIP (Directly addressed)"/>
-						<label for="node-tuner_step_decrement">TUNER_STEP_DECREMENT</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-tuner_step_increment" value="TUNER_STEP_INCREMENT" title="Used to tune to next highest service in a tuner’s service list. Can be used for PIP (Directly addressed)"/>
-						<label for="node-tuner_step_increment">TUNER_STEP_INCREMENT</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-device_vendor_id" value="DEVICE_VENDOR_ID" title="Reports the Vendor ID of this device (Broadcast)"/>
-						<label for="node-device_vendor_id">DEVICE_VENDOR_ID</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-give_device_vendor_id" value="GIVE_DEVICE_VENDOR_ID" title="Requests the Vendor ID from a device (Directly addressed)"/>
-						<label for="node-give_device_vendor_id">GIVE_DEVICE_VENDOR_ID</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-vendor_command" value="VENDOR_COMMAND" title="Allows vendor specific commands to be sent between two devices (Directly addressed)"/>
-						<label for="node-vendor_command">VENDOR_COMMAND</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-vendor_command_with_id" value="VENDOR_COMMAND_WITH_ID" title="Allows vendor specific commands to be sent between two devices or broadcast (Directly addressed or Broadcast)"/>
-						<label for="node-vendor_command_with_id">VENDOR_COMMAND_WITH_ID</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-vendor_remote_button_down" value="VENDOR_REMOTE_BUTTON_DOWN" title="Indicates that a remote control button has been depressed (Directly addressed or Broadcast)"/>
-						<label for="node-vendor_remote_button_down">VENDOR_REMOTE_BUTTON_DOWN</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-vendor_remote_button_up" value="VENDOR_REMOTE_BUTTON_UP" title="Indicates that a remote control button (the last button pressed indicated by the "Vendor Remote Button Down" message) has been released (Directly addressed or Broadcast)"/>
-						<label for="node-vendor_remote_button_up">VENDOR_REMOTE_BUTTON_UP</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-set_osd_string" value="SET_OSD_STRING" title="Used to send a text message to output on a TV (Directly addressed)"/>
-						<label for="node-set_osd_string">SET_OSD_STRING</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-give_osd_name" value="GIVE_OSD_NAME" title="Used to request the preferred OSD name of a device for use in menus associated with that device (Directly addressed)"/>
-						<label for="node-give_osd_name">GIVE_OSD_NAME</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-set_osd_name" value="SET_OSD_NAME" title="Used to set the preferred OSD name of a device for use in menus associated with that device (Directly addressed)"/>
-						<label for="node-set_osd_name">SET_OSD_NAME</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-menu_request" value="MENU_REQUEST" title="A request from the TV for a device to show/remove a menu or to query if a device is currently showing a menu (Directly addressed)"/>
-						<label for="node-menu_request">MENU_REQUEST</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-menu_status" value="MENU_STATUS" title="Used to indicate to the TV that the device is showing/has removed a menu and requests the remote control keys to be passed though (Directly addressed)"/>
-						<label for="node-menu_status">MENU_STATUS</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-user_control_pressed" value="USER_CONTROL_PRESSED" title="Used to indicate that the user pressed a remote control button or switched from one remote control button to another (Directly addressed). This message is used in several features : Device Menu Control,System Audio Control,Remote Control Pass Through"/>
-						<label for="node-user_control_pressed">USER_CONTROL_PRESSED</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-user_control_release" value="USER_CONTROL_RELEASE" title="Indicates that user released a remote control button (the last one indicated by the "User Control Pressed" message) (Directly addressed). This message is used in several features : Device Menu Control,System Audio Control,Remote Control Pass Through"/>
-						<label for="node-user_control_release">USER_CONTROL_RELEASE</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-give_device_power_status" value="GIVE_DEVICE_POWER_STATUS" title="Used to determine the current power status of a target device (Directly addressed)"/>
-						<label for="node-give_device_power_status">GIVE_DEVICE_POWER_STATUS</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-report_power_status" value="REPORT_POWER_STATUS" title="Used to inform a requesting device of the current power status (Directly addressed)"/>
-						<label for="node-report_power_status">REPORT_POWER_STATUS</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-feature_abort" value="FEATURE_ABORT" title="Used as a response to indicate that the device does not support the requested message type, or that it cannot execute it at the present time (Directly addressed)"/>
-						<label for="node-feature_abort">FEATURE_ABORT</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-abort" value="ABORT" title="This message is reserved for testing purposes (Directly addressed)"/>
-						<label for="node-abort">ABORT</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-give_audio_status" value="GIVE_AUDIO_STATUS" title="Requests an amplifier to send its volume and mute status (Directly addressed)"/>
-						<label for="node-give_audio_status">GIVE_AUDIO_STATUS</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-give_system_audio_mode_status" value="GIVE_SYSTEM_AUDIO_MODE_STATUS" title="Requests the status of the System Audio Mode (Directly addressed)"/>
-						<label for="node-give_system_audio_mode_status">GIVE_SYSTEM_AUDIO_MODE_STATUS</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-report_audio_status" value="REPORT_AUDIO_STATUS" title="Reports an amplifier’s volume and mute status (Directly addressed)"/>
-						<label for="node-report_audio_status">REPORT_AUDIO_STATUS</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-set_system_audio_mode" value="SET_SYSTEM_AUDIO_MODE" title="Turns the System Audio Mode On or Off (Directly addressed or Broadcast)"/>
-						<label for="node-set_system_audio_mode">SET_SYSTEM_AUDIO_MODE</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-system_audio_mode_request" value="SYSTEM_AUDIO_MODE_REQUEST" title="A device implementing System Audio Control and which has volume control RC buttons (eg TV or STB) requests to use System Audio Mode to the amplifier (Directly addressed)"/>
-						<label for="node-system_audio_mode_request">SYSTEM_AUDIO_MODE_REQUEST</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-system_audio_mode_status" value="SYSTEM_AUDIO_MODE_STATUS" title="Reports the current status of the System Audio Mode (Directly addressed)"/>
-						<label for="node-system_audio_mode_status">SYSTEM_AUDIO_MODE_STATUS</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-set_audio_rate" value="SET_AUDIO_RATE" title="Used to control audio rate from Source Device (Directly addressed)"/>
-						<label for="node-set_audio_rate">SET_AUDIO_RATE</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-start_arc" value="START_ARC" title="ARC 1.4 support"/>
-						<label for="node-start_arc">START_ARC</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-report_arc_started" value="REPORT_ARC_STARTED" title=""/>
-						<label for="node-report_arc_started">REPORT_ARC_STARTED</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-report_arc_ended" value="REPORT_ARC_ENDED" title=""/>
-						<label for="node-report_arc_ended">REPORT_ARC_ENDED</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-request_arc_start" value="REQUEST_ARC_START" title=""/>
-						<label for="node-request_arc_start">REQUEST_ARC_START</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-request_arc_end" value="REQUEST_ARC_END" title=""/>
-						<label for="node-request_arc_end">REQUEST_ARC_END</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-end_arc" value="END_ARC" title=""/>
-						<label for="node-end_arc">END_ARC</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-cdc" value="CDC" title=""/>
-						<label for="node-cdc">CDC</label>
-					</li>
-					<li>
-						<input type="checkbox" id="node-input-none" value="NONE" title=""/>
-						<label for="node-none">NONE</label>
-					</li>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-active_source" value="ACTIVE_SOURCE" title="Used by a new source to indicate that it has started to transmit a stream OR used in response to a "Request Active Source" (Brodcast). This message is used in several features : One Touch Play,Routing Control"/>
+						<label  class="cec-checkbox-label" for="node-active_source">ACTIVE_SOURCE</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-image_view_on" value="IMAGE_VIEW_ON" title="Sent by a source device to the TV whenever it enters the active state (alternatively it may send "Text View On") (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-image_view_on">IMAGE_VIEW_ON</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-text_view_on" value="TEXT_VIEW_ON" title="As "Image View On", but should also remove any text, menus and PIP windows from the TV’s display (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-text_view_on">TEXT_VIEW_ON</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-inactive_source" value="INACTIVE_SOURCE" title="Used by the currently active source to inform the TV that it has no video to be presented to the user, or is going into standby as the result of a local user command on the device (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-inactive_source">INACTIVE_SOURCE</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-request_active_source" value="REQUEST_ACTIVE_SOURCE" title="Used by a new device to discover the status of the system (Broadcast)"/>
+						<label  class="cec-checkbox-label" for="node-request_active_source">REQUEST_ACTIVE_SOURCE</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-routing_change" value="ROUTING_CHANGE" title="Sent by a CEC Switch when it is manually switched to inform all other devices on the network that the active route below the switch has changed (Broadcast)"/>
+						<label  class="cec-checkbox-label" for="node-routing_change">ROUTING_CHANGE</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-routing_information" value="ROUTING_INFORMATION" title="Sent by a CEC Switch to indicate the active route below the switch (Broadcast)"/>
+						<label  class="cec-checkbox-label" for="node-routing_information">ROUTING_INFORMATION</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-set_stream_path" value="SET_STREAM_PATH" title="Used by the TV to request a streaming path from the specified address (Broadcast)"/>
+						<label  class="cec-checkbox-label" for="node-set_stream_path">SET_STREAM_PATH</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-standby" value="STANDBY" title="Switches on or all devices into standby mode. Can be used a broadcast message or be addressed to a specific device (Broadcast or Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-standby">STANDBY</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-record_off" value="RECORD_OFF" title="Requests a device to stop a recording (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-record_off">RECORD_OFF</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-record_on" value="RECORD_ON" title="Attempt to record the specified source (Directly addressed). This message is used in several features : One Touch Record,Tuner Control"/>
+						<label  class="cec-checkbox-label" for="node-record_on">RECORD_ON</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-record_status" value="RECORD_STATUS" title="Used by a Recording Device to inform the initiator of the message "Record On" about its status (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-record_status">RECORD_STATUS</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-record_tv_screen" value="RECORD_TV_SCREEN" title="Request by the Recording Device to record the presently displayed source (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-record_tv_screen">RECORD_TV_SCREEN</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-clear_analogue_timer" value="CLEAR_ANALOGUE_TIMER" title="Used to clear an Analogue timer block of a device (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-clear_analogue_timer">CLEAR_ANALOGUE_TIMER</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-clear_digital_timer" value="CLEAR_DIGITAL_TIMER" title="Used to clear a Digital timer block of a device (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-clear_digital_timer">CLEAR_DIGITAL_TIMER</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-clear_external_timer" value="CLEAR_EXTERNAL_TIMER" title="Used to clear an External timer block of a device (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-clear_external_timer">CLEAR_EXTERNAL_TIMER</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-set_analogue_timer" value="SET_ANALOGUE_TIMER" title="Used to set a single timer block on an Analogue Recording Device (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-set_analogue_timer">SET_ANALOGUE_TIMER</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-set_digital_timer" value="SET_DIGITAL_TIMER" title="Used to set a single timer block on a Digital Recording Device (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-set_digital_timer">SET_DIGITAL_TIMER</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-set_external_timer" value="SET_EXTERNAL_TIMER" title="Used to set a single timer block to record from an external device (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-set_external_timer">SET_EXTERNAL_TIMER</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-set_timer_program_title" value="SET_TIMER_PROGRAM_TITLE" title="Used to set the name of a program associated with a timer block. Sent directly after sending a "Set Analogue Timer" or "Set Digital Timer" message. The name is then associated with that timer block (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-set_timer_program_title">SET_TIMER_PROGRAM_TITLE</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-timer_cleared_status" value="TIMER_CLEARED_STATUS" title="Used to give the status of a "Clear Analogue Timer", "Clear Digital Timer" or "Clear External Timer" message (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-timer_cleared_status">TIMER_CLEARED_STATUS</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-timer_status" value="TIMER_STATUS" title="Used to send timer status to the initiator of a "Status Timer" message (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-timer_status">TIMER_STATUS</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-cec_version" value="CEC_VERSION" title="Used to indicate the supported CEC version, in response to a "Get CEC Version" (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-cec_version">CEC_VERSION</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-get_cec_version" value="GET_CEC_VERSION" title="Used by a device to enquire which version of CEC the target supports (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-get_cec_version">GET_CEC_VERSION</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-give_physical_address" value="GIVE_PHYSICAL_ADDRESS" title="A request to a device to return its physical address. (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-give_physical_address">GIVE_PHYSICAL_ADDRESS</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-get_menu_language" value="GET_MENU_LANGUAGE" title="Sent by a device capable of character generation (for OSD and Menus) to a TV in order to discover the currently selected Menu language. Also used by a TV during installation to discover the currently set menu language from other devices (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-get_menu_language">GET_MENU_LANGUAGE</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-report_physical_address" value="REPORT_PHYSICAL_ADDRESS" title="Used to inform all other devices of the mapping between physical and logical address of the initiator (Broadcast)"/>
+						<label  class="cec-checkbox-label" for="node-report_physical_address">REPORT_PHYSICAL_ADDRESS</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-set_menu_language" value="SET_MENU_LANGUAGE" title="Used by a TV or another device to indicate the menu language (Broadcast)"/>
+						<label  class="cec-checkbox-label" for="node-set_menu_language">SET_MENU_LANGUAGE</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-deck_control" value="DECK_CONTROL" title="Used to control a device’s media functions (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-deck_control">DECK_CONTROL</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-deck_status" value="DECK_STATUS" title="Used to provide a deck’s status to the initiator of the "Give Deck Status" message (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-deck_status">DECK_STATUS</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-give_deck_status" value="GIVE_DECK_STATUS" title="Used to request the status of a device, regardless of whether or not it is the current active source (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-give_deck_status">GIVE_DECK_STATUS</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-play" value="PLAY" title="Used to control the playback behaviour of a source device (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-play">PLAY</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-give_tuner_device_status" value="GIVE_TUNER_DEVICE_STATUS" title="Used to request the status of a tuner device (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-give_tuner_device_status">GIVE_TUNER_DEVICE_STATUS</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-select_analogue_service" value="SELECT_ANALOGUE_SERVICE" title="Directly selects an Analogue TV service (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-select_analogue_service">SELECT_ANALOGUE_SERVICE</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-select_digital_service" value="SELECT_DIGITAL_SERVICE" title="Directly selects a Digital TV, Radio or Data Broadcast Service (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-select_digital_service">SELECT_DIGITAL_SERVICE</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-tuner_device_status" value="TUNER_DEVICE_STATUS" title="Used by a tuner device to provide its status to the initiator of the "Give Tuner Device Status" message (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-tuner_device_status">TUNER_DEVICE_STATUS</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-tuner_step_decrement" value="TUNER_STEP_DECREMENT" title="Used to tune to next lowest service in a tuner’s service list. Can be used for PIP (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-tuner_step_decrement">TUNER_STEP_DECREMENT</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-tuner_step_increment" value="TUNER_STEP_INCREMENT" title="Used to tune to next highest service in a tuner’s service list. Can be used for PIP (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-tuner_step_increment">TUNER_STEP_INCREMENT</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-device_vendor_id" value="DEVICE_VENDOR_ID" title="Reports the Vendor ID of this device (Broadcast)"/>
+						<label  class="cec-checkbox-label" for="node-device_vendor_id">DEVICE_VENDOR_ID</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-give_device_vendor_id" value="GIVE_DEVICE_VENDOR_ID" title="Requests the Vendor ID from a device (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-give_device_vendor_id">GIVE_DEVICE_VENDOR_ID</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-vendor_command" value="VENDOR_COMMAND" title="Allows vendor specific commands to be sent between two devices (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-vendor_command">VENDOR_COMMAND</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-vendor_command_with_id" value="VENDOR_COMMAND_WITH_ID" title="Allows vendor specific commands to be sent between two devices or broadcast (Directly addressed or Broadcast)"/>
+						<label  class="cec-checkbox-label" for="node-vendor_command_with_id">VENDOR_COMMAND_WITH_ID</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-vendor_remote_button_down" value="VENDOR_REMOTE_BUTTON_DOWN" title="Indicates that a remote control button has been depressed (Directly addressed or Broadcast)"/>
+						<label  class="cec-checkbox-label" for="node-vendor_remote_button_down">VENDOR_REMOTE_BUTTON_DOWN</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-vendor_remote_button_up" value="VENDOR_REMOTE_BUTTON_UP" title="Indicates that a remote control button (the last button pressed indicated by the "Vendor Remote Button Down" message) has been released (Directly addressed or Broadcast)"/>
+						<label  class="cec-checkbox-label" for="node-vendor_remote_button_up">VENDOR_REMOTE_BUTTON_UP</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-set_osd_string" value="SET_OSD_STRING" title="Used to send a text message to output on a TV (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-set_osd_string">SET_OSD_STRING</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-give_osd_name" value="GIVE_OSD_NAME" title="Used to request the preferred OSD name of a device for use in menus associated with that device (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-give_osd_name">GIVE_OSD_NAME</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-set_osd_name" value="SET_OSD_NAME" title="Used to set the preferred OSD name of a device for use in menus associated with that device (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-set_osd_name">SET_OSD_NAME</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-menu_request" value="MENU_REQUEST" title="A request from the TV for a device to show/remove a menu or to query if a device is currently showing a menu (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-menu_request">MENU_REQUEST</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-menu_status" value="MENU_STATUS" title="Used to indicate to the TV that the device is showing/has removed a menu and requests the remote control keys to be passed though (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-menu_status">MENU_STATUS</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-user_control_pressed" value="USER_CONTROL_PRESSED" title="Used to indicate that the user pressed a remote control button or switched from one remote control button to another (Directly addressed). This message is used in several features : Device Menu Control,System Audio Control,Remote Control Pass Through"/>
+						<label  class="cec-checkbox-label" for="node-user_control_pressed">USER_CONTROL_PRESSED</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-user_control_release" value="USER_CONTROL_RELEASE" title="Indicates that user released a remote control button (the last one indicated by the "User Control Pressed" message) (Directly addressed). This message is used in several features : Device Menu Control,System Audio Control,Remote Control Pass Through"/>
+						<label  class="cec-checkbox-label" for="node-user_control_release">USER_CONTROL_RELEASE</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-give_device_power_status" value="GIVE_DEVICE_POWER_STATUS" title="Used to determine the current power status of a target device (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-give_device_power_status">GIVE_DEVICE_POWER_STATUS</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-report_power_status" value="REPORT_POWER_STATUS" title="Used to inform a requesting device of the current power status (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-report_power_status">REPORT_POWER_STATUS</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-feature_abort" value="FEATURE_ABORT" title="Used as a response to indicate that the device does not support the requested message type, or that it cannot execute it at the present time (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-feature_abort">FEATURE_ABORT</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-abort" value="ABORT" title="This message is reserved for testing purposes (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-abort">ABORT</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-give_audio_status" value="GIVE_AUDIO_STATUS" title="Requests an amplifier to send its volume and mute status (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-give_audio_status">GIVE_AUDIO_STATUS</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-give_system_audio_mode_status" value="GIVE_SYSTEM_AUDIO_MODE_STATUS" title="Requests the status of the System Audio Mode (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-give_system_audio_mode_status">GIVE_SYSTEM_AUDIO_MODE_STATUS</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-report_audio_status" value="REPORT_AUDIO_STATUS" title="Reports an amplifier’s volume and mute status (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-report_audio_status">REPORT_AUDIO_STATUS</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-set_system_audio_mode" value="SET_SYSTEM_AUDIO_MODE" title="Turns the System Audio Mode On or Off (Directly addressed or Broadcast)"/>
+						<label  class="cec-checkbox-label" for="node-set_system_audio_mode">SET_SYSTEM_AUDIO_MODE</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-system_audio_mode_request" value="SYSTEM_AUDIO_MODE_REQUEST" title="A device implementing System Audio Control and which has volume control RC buttons (eg TV or STB) requests to use System Audio Mode to the amplifier (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-system_audio_mode_request">SYSTEM_AUDIO_MODE_REQUEST</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-system_audio_mode_status" value="SYSTEM_AUDIO_MODE_STATUS" title="Reports the current status of the System Audio Mode (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-system_audio_mode_status">SYSTEM_AUDIO_MODE_STATUS</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-set_audio_rate" value="SET_AUDIO_RATE" title="Used to control audio rate from Source Device (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-set_audio_rate">SET_AUDIO_RATE</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-start_arc" value="START_ARC" title="ARC 1.4 support"/>
+						<label  class="cec-checkbox-label" for="node-start_arc">START_ARC</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-report_arc_started" value="REPORT_ARC_STARTED" title=""/>
+						<label  class="cec-checkbox-label" for="node-report_arc_started">REPORT_ARC_STARTED</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-report_arc_ended" value="REPORT_ARC_ENDED" title=""/>
+						<label  class="cec-checkbox-label" for="node-report_arc_ended">REPORT_ARC_ENDED</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-request_arc_start" value="REQUEST_ARC_START" title=""/>
+						<label  class="cec-checkbox-label" for="node-request_arc_start">REQUEST_ARC_START</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-request_arc_end" value="REQUEST_ARC_END" title=""/>
+						<label  class="cec-checkbox-label" for="node-request_arc_end">REQUEST_ARC_END</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-end_arc" value="END_ARC" title=""/>
+						<label  class="cec-checkbox-label" for="node-end_arc">END_ARC</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-cdc" value="CDC" title=""/>
+						<label  class="cec-checkbox-label" for="node-cdc">CDC</label>
+					</div>
+					<div class="form-row">
+						<input type="checkbox" class="cec-checkbox" id="node-input-none" value="NONE" title=""/>
+						<label  class="cec-checkbox-label" for="node-none">NONE</label>
+					</div>
 				</ul>
 				<input type="button" id="cec-in-selectall"
 					class="ui-button ui-widget ui-corner-all ui-button-text-only primary"
@@ -538,12 +548,12 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 				<p><i class="fa fa-filter" aria-hidden="true"></i> Emit Events sent to the bus from this adapter and/or from the bus to this adapter:</p>
 				<ul class="cec-checkbox-grid"> <!-- TODO The CSS here needs fixing so it all aligns -->
 					<li>
-						<input type="checkbox" id="node-input-flow_in" value="IN" title="Used by a new source to indicate that it has started to transmit a stream OR used in response to a "Request Active Source" (Brodcast). This message is used in several features : One Touch Play,Routing Control"/>
-						<label for="node-flow_in">Inbound CEC Code</label>
+						<input type="checkbox" class="cec-checkbox" id="node-input-flow_in" value="IN" title="Used by a new source to indicate that it has started to transmit a stream OR used in response to a "Request Active Source" (Brodcast). This message is used in several features : One Touch Play,Routing Control"/>
+						<label  class="cec-checkbox-label" for="node-flow_in">Inbound CEC Code</label>
 					</li>
 					<li>
-						<input type="checkbox" id="node-input-flow_out" value="OUT" title="Sent by a source device to the TV whenever it enters the active state (alternatively it may send "Text View On") (Directly addressed)"/>
-						<label for="node-image_view_on">Outbound CEC Code</label>
+						<input type="checkbox" class="cec-checkbox" id="node-input-flow_out" value="OUT" title="Sent by a source device to the TV whenever it enters the active state (alternatively it may send "Text View On") (Directly addressed)"/>
+						<label  class="cec-checkbox-label" for="node-image_view_on">Outbound CEC Code</label>
 					</li>
 				</ul>
 			</div>

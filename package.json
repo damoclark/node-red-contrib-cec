@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-cec",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Node-Red contributed nodes for interacting with cec-enabled devices on a HDMI switch, such as a TV or digital receiver",
   "main": "index.js",
   "scripts": {
