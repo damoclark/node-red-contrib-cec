@@ -1,5 +1,5 @@
 /**
- * cec-config
+ * cec-config.js
  *
  * Configuration node for node-red-contrib-cec
  *

@@ -1,5 +1,5 @@
 /**
- * cec-in.js
+ * cec.js
  *
  * Node-Red CEC Input Node
  *
@@ -27,20 +27,49 @@
 // require any external libraries we may need....
 var c = require('@damoclark/cec-monitor') ;
 var pathval = require('pathval') ;
+var commandExists = require('command-exists') ;
 
-var CEC = c.CEC ;
 var CECMonitor = c.CECMonitor ;
 var RED = null ;
 
-function MonManager() {
-	this.monitor = {} ;
-	this.node = {} ;
-	this.count = {} ;
+/**
+ * Manager class for cec-client
+ * @param {function} cb Callback when confirmed the cec-client command is available 
+ * @constructor
+ */
+function MonManager(cb) {
+	var self = this ;
+	self.monitor = {} ;
+	self.node = {} ;
+	self.count = {} ;
+	self.commandExists = null ;
+
+	commandExists('cec-client')
+	.then(function(){
+		self.commandExists = true ;
+		cb() ;
+	})
+	.catch(function(){
+		self.commandExists = false ;
+		cb() ;
+	}) ;
 }
 
 MonManager.prototype.init = function(node,config) {
-	if(!this.node.hasOwnProperty(config.cec_adapter))
+	// Error if cec-client command not found via the node error method
+	if(!this.commandExists) {
+		node.error("cec-client not installed. Refer to installation instructions: " +
+			"https://github.com/damoclark/node-red-contrib-cec#installation") ;
+		node.status({fill:"red",shape:"dot",text:"cec-client command missing"}) ;
+		node.on('input', function() {
+			node.error("cec-client not installed. Refer to installation instructions: " +
+				"https://github.com/damoclark/node-red-contrib-cec#installation") ;
+		}) ;
+		return ;
+	}
+	if(!this.node.hasOwnProperty(config.cec_adapter)) {
 		this.node[config.cec_adapter] = node ;
+	}
 
 	var cec_adapter = RED.nodes.getNode(config.cec_adapter);
 	cec_adapter.debug = false ;
@@ -95,12 +124,14 @@ MonManager.prototype.delete = function (cec_adapter,done) {
 	}
 } ;
 
-var mon = new MonManager() ;
+var mon ;
 
 module.exports = {
-	init: function init(red) {
+	init: function init(red,cb) {
 		if (RED === null)
-			RED = red;
+			RED = red ;
+
+		mon = new MonManager(cb) ;
 	},
 	/**
 	 * The Cec input node
@@ -115,6 +146,11 @@ module.exports = {
 
 		// Retrieve the config node
 		node.cec_adapter = mon.init(node,config) ;
+		// If cec-client not installed, then don't configure node
+		if(!node.cec_adapter) {
+			return ;
+		}
+		
 		var monitor = mon.get(config.cec_adapter) ;
 		node.config = config ;
 		node.config.select_all = (node.config.select_all == 'true') ;
@@ -171,6 +207,11 @@ module.exports = {
 
 		// Retrieve the config node
 		node.cec_adapter = mon.init(node,config) ;
+		// If cec-client not installed, then don't configure node
+		if(!node.cec_adapter) {
+			return ;
+		}
+		
 		var monitor = mon.get(config.cec_adapter) ;
 		node.config = config ;
 
@@ -200,7 +241,7 @@ module.exports = {
 				return ;
 
 			var msgs ;
-			if(typeof msg.payload === 'array') {
+			if(Array.isArray(msg.payload)) {
 				msgs = msg.payload ;
 			}
 			else if(typeof msg.payload === 'object') {
@@ -229,6 +270,11 @@ module.exports = {
 
 		// Retrieve the config node
 		node.cec_adapter = mon.init(node,config) ;
+		// If cec-client not installed, then don't configure node
+		if(!node.cec_adapter) {
+			return ;
+		}
+
 		var monitor = mon.get(config.cec_adapter) ;
 		node.config = config ;
 
@@ -260,7 +306,7 @@ module.exports = {
 			// Initialise flow state information
 			var flowContext = node.context().flow ;
 			flowContext.set(node.config.flow_name,{devices:monitor.GetState(), active_source:monitor.GetActiveSource}) ;
-			monitor.on(CECMonitor.EVENTS._OPCODE,function(packet) {
+			monitor.on(CECMonitor.EVENTS._OPCODE,function() {
 					var s = monitor.GetState() ;
 					var a = monitor.GetActiveSource() ;
 					flowContext.set(node.config.flow_name,{devices:s, active_source: a}) ;

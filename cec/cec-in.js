@@ -26,6 +26,7 @@
 module.exports = function(RED) {
 	"use strict" ;
 	var c = require('./cec') ;
-	c.init(RED) ;
-	RED.nodes.registerType("cec-in",c.CecInNode) ;
+	c.init(RED,function(){
+		RED.nodes.registerType("cec-in",c.CecInNode) ;
+	}) ;
 } ;
