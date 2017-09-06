@@ -1,0 +1,82 @@
+{
+  "env": {
+    "es6": true,
+    "node": true
+  },
+  "extends": "eslint:recommended",
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "rules": {
+    "space-before-function-paren": [
+      "error",
+      {
+        "anonymous": "never",
+        "named": "never",
+        "asyncArrow": "always"
+      }
+    ],
+    "curly": [
+      "error",
+      "multi-or-nest",
+      "consistent"
+    ],
+    "brace-style": [
+      "error",
+      "stroustrup", {
+        "allowSingleLine": false
+      }
+    ],
+    "comma-spacing": ["error", { "before": false, "after": true }],
+    "dot-location": ["error", "property"],
+    "indent": [
+      "error",
+      "tab",
+      {
+        "MemberExpression": 0,
+        "FunctionExpression": {
+          "body": 1,
+          "parameters": 0
+        },
+        "FunctionDeclaration": {
+          "body": 1,
+          "parameters": 0
+        },
+        "outerIIFEBody": 0,
+        "VariableDeclarator": 1,
+        "CallExpression": {
+          "arguments": 1
+        },
+        "ArrayExpression": 1,
+        "ObjectExpression": 1,
+        "ImportDeclaration": 0,
+        "flatTernaryExpressions": true
+      }
+    ],
+    "linebreak-style": [
+      "error",
+      "unix"
+    ],
+    "quotes": [
+      "error",
+      "double"
+    ],
+    "MemberExpression": [
+      "error",
+      0
+    ],
+    "semi": [
+      "error",
+      "always"
+    ],
+    "semi-spacing": [
+      "error",
+      {
+        "before": true,
+        "after": true
+      }
+    ],
+    "no-extra-semi": "error",
+    "no-console": "off"
+  }
+}
