@@ -25,7 +25,7 @@
 
 "use strict" ;
 // require any external libraries we may need....
-var c = require("@damoclark/cec-monitor") ;
+var c = require("../vendor/cec-monitor") ;
 var pathval = require("pathval") ;
 var commandExists = require("command-exists") ;
 
@@ -37,21 +37,19 @@ var RED = null ;
  * @param {function} cb Callback when confirmed the cec-client command is available 
  * @constructor
  */
-function MonManager(cb) {
+function MonManager() {
 	var self = this ;
 	self.monitor = {} ;
 	self.node = {} ;
 	self.count = {} ;
 	self.commandExists = null ;
 
-	commandExists("cec-client")
+	self.ready = commandExists("cec-client")
 	.then(function(){
 		self.commandExists = true ;
-		cb() ;
 	})
 	.catch(function(){
 		self.commandExists = false ;
-		cb() ;
 	}) ;
 }
 
@@ -72,6 +70,10 @@ MonManager.prototype.init = function(node, config) {
 	
 
 	var cec_adapter = RED.nodes.getNode(config.cec_adapter) ;
+	if (!cec_adapter) {
+		node.error("CEC adapter configuration is missing") ;
+		return ;
+	}
 	cec_adapter.debug = false ;
 	cec_adapter.processManaged = true ;
 	cec_adapter.autorestart = true ;
@@ -127,6 +129,23 @@ MonManager.prototype.delete = function(cec_adapter, done) {
 	}
 } ;
 
+// Keep subscriptions owned by a flow node removable on partial redeploy.
+function monitorForNode(node, monitor) {
+	var subscriptions = [] ;
+	var view = Object.create(monitor) ;
+	view.on = function(event, listener) {
+		subscriptions.push([event, listener]) ;
+		monitor.on(event, listener) ;
+		return view ;
+	} ;
+	node.on("close", function() {
+		subscriptions.forEach(function(entry) {
+			monitor.removeListener(entry[0], entry[1]) ;
+		}) ;
+	}) ;
+	return view ;
+}
+
 var mon ;
 
 module.exports = {
@@ -134,7 +153,8 @@ module.exports = {
 		if (RED === null)
 			RED = red ;
 
-		mon = new MonManager(cb) ;
+		if (!mon) mon = new MonManager() ;
+		mon.ready.then(cb) ;
 	},
 	/**
 	 * The Cec input node
@@ -154,7 +174,7 @@ module.exports = {
 			return ;
 		
 		
-		var monitor = mon.get(config.cec_adapter) ;
+		var monitor = monitorForNode(node, mon.get(config.cec_adapter)) ;
 		node.config = config ;
 		node.config.select_all = (node.config.select_all == "true") ;
 
@@ -172,11 +192,11 @@ module.exports = {
 		var ready = function() {
 			node.status({fill:"green", shape:"dot", text:"Connected"}) ;
 		} ;
-		monitor.once(CECMonitor.EVENTS._READY, ready) ;
+		monitor.on(CECMonitor.EVENTS._READY, ready) ;
+		if (monitor.ready) ready() ;
 
 		monitor.on(CECMonitor.EVENTS._STOP, function() {
 			node.status({fill:"red", shape:"ring", text:"Disconnected"}) ;
-			monitor.once(CECMonitor.EVENTS._READY, ready) ;
 		}) ;
 
 		var send = function(packet) {
@@ -216,7 +236,7 @@ module.exports = {
 			return ;
 		
 		
-		var monitor = mon.get(config.cec_adapter) ;
+		var monitor = monitorForNode(node, mon.get(config.cec_adapter)) ;
 		node.config = config ;
 
 		node.on("close", function(removed, done) {
@@ -233,11 +253,11 @@ module.exports = {
 		var ready = function() {
 			node.status({fill:"green", shape:"dot", text:"Connected"}) ;
 		} ;
-		monitor.once(CECMonitor.EVENTS._READY, ready) ;
+		monitor.on(CECMonitor.EVENTS._READY, ready) ;
+		if (monitor.ready) ready() ;
 
 		monitor.on(CECMonitor.EVENTS._STOP, function() {
 			node.status({fill:"red", shape:"ring", text:"Disconnected"}) ;
-			monitor.once(CECMonitor.EVENTS._READY, ready) ;
 		}) ;
 
 
@@ -280,7 +300,7 @@ module.exports = {
 			return ;
 		
 
-		var monitor = mon.get(config.cec_adapter) ;
+		var monitor = monitorForNode(node, mon.get(config.cec_adapter)) ;
 		node.config = config ;
 
 		node.on("close", function(removed, done) {
@@ -300,11 +320,11 @@ module.exports = {
 			
 			node.status({fill:"green", shape:"dot", text:"Connected"}) ;
 		} ;
-		monitor.once(CECMonitor.EVENTS._READY, ready) ;
+		monitor.on(CECMonitor.EVENTS._READY, ready) ;
+		if (monitor.ready) ready() ;
 
 		monitor.on(CECMonitor.EVENTS._STOP, function() {
 			node.status({fill:"red", shape:"ring", text:"Disconnected"}) ;
-			monitor.once(CECMonitor.EVENTS._READY, ready) ;
 		}) ;
 
 		// Do we update the flow property on receipt of every opcode from CEC bus?

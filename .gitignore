@@ -73,3 +73,11 @@ Temporary Items
 
 # tmp files in development repository
 tmp/
+
+# Local dependencies, install verification, and release archives
+node_modules/
+.package-check/
+.upgrade-check/
+.codex-remote-attachments/
+*.tgz
+npm-debug.log*

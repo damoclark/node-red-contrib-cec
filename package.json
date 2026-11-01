@@ -1,10 +1,9 @@
 {
   "name": "node-red-contrib-cec",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "Node-Red contributed nodes for interacting with cec-enabled devices on a HDMI switch, such as a TV or digital receiver",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --test test/*.test.js"
   },
   "node-red": {
     "nodes": {
@@ -16,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/damoclark/node-red-contrib-cec.git"
+    "url": "https://github.com/lizaoreo/node-red-contrib-cec.git"
   },
   "keywords": [
     "node-red",
@@ -26,8 +25,18 @@
   "author": "Damien Clark",
   "license": "GPL-3.0",
   "dependencies": {
-    "@damoclark/cec-monitor": "^1.0.10-release.3",
     "command-exists": "^1.2.2",
-    "pathval": "^1.1.0"
-  }
+    "pathval": "^1.1.0",
+    "death": "1.1.0",
+    "event-stream": "3.3.4"
+  },
+  "engines": {
+    "node": ">=8.8.0"
+  },
+  "files": [
+    "cec/",
+    "vendor/",
+    "DEPLOYMENT.md",
+    "test/"
+  ]
 }
