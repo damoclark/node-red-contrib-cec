@@ -1,6 +1,21 @@
 # Node-Red-Contrib-Cec
 
-Node-Red contributed nodes for interacting with cec-enabled devices on a HDMI switch, digital receiver and/or a TV - control and monitor your entertainment system using a Raspberry Pi.
+Node-RED nodes for controlling and monitoring HDMI-CEC devices, including TVs, digital receivers, and HDMI switches, through Pulse-Eight USB-CEC adapters or other libCEC-supported hardware.
+
+This fork builds on [Damien Clark's node-red-contrib-cec](https://github.com/damoclark/node-red-contrib-cec).
+
+## Changes in this fork
+
+- Explicit serial-port settings now reach `cec-client`, allowing separate configurations to select separate adapters.
+- The `cec-client.exe` console is hidden on Windows.
+- Connection management preserves Node-RED node IDs, shares one client per configuration, and removes event listeners on redeploy.
+- Stopping a connection cancels retries and waits for the client to exit. Unexpected exits reconnect using the same configured port.
+- Version 1.0.4 installs JavaScript dependencies normally rather than bundling them in the release archive.
+
+The module uses the native `cec-client` command-line tool supplied by
+[libCEC](https://github.com/Pulse-Eight/libcec). It sends commands through standard
+input and reads the client's text output. The patched JavaScript wrapper is
+included in `vendor/cec-monitor` with its license.
 
 ## Overview
 The goal of this software is to make it easy for makers to automate interactions with entertainment systems via the HDMI CEC protocol, via the awesome [Node-RED Framework](http://nodered.org/).
@@ -12,14 +27,18 @@ To do this, it leverages the great work of:
 
 It includes 4 nodes as follows:
 
-1. cec-input - input node that receives CEC messages from a HDMI bus.
-2. cec-output - output node that sends CEC commands to the HDMI bus.
+1. cec-in - input node that receives CEC messages from a HDMI bus.
+2. cec-out - output node that sends CEC commands to the HDMI bus.
 3. cec-state - tracks and stores the status of all the devices connected to the HDMI CEC bus by listening to the cec messages.
 4. cec-config - provides connection details for connecting to the cec serial port.
 
 ## Installation
 
-Before installing this node-red module, you first need to install the cec-utils software from PulseEight.  Instructions vary depending on your operating system and distribution.  Complete instructions are available from the PulseEight Github Repo, or if TL;DR, quick guide follows:
+Install [Pulse-Eight libCEC](https://github.com/Pulse-Eight/libcec) and its `cec-client` executable before installing this module. The executable must be on the PATH used by Node-RED. Installation depends on your operating system; common options follow.
+
+### Windows
+
+Install the Pulse-Eight USB-CEC Adapter software, including `cec-client.exe`, and ensure its executable directory is on Node-RED's PATH. See [Windows deployment](DEPLOYMENT.md) for installation and adapter configuration.
 
 ### Debian/Raspbian/Ubuntu
 
@@ -42,16 +61,36 @@ $ sudo port install libcec
 
 ### Installing node-red-contrib-cec
 
-Install `node-red-contrib-cec` by following the [adding nodes](http://nodered.org/docs/getting-started/adding-nodes) instructions from the [Node-RED Getting Started Documentation](http://nodered.org/docs/getting-started/).
+Download `node-red-contrib-cec-1.0.4.tgz` from this fork's
+[releases](https://github.com/lizaoreo/node-red-contrib-cec/releases), or build it
+from source using the commands below. Stop Node-RED and install the archive from
+your Node-RED user directory (usually `~/.node-red`):
 
-The following instructions use [npm](https://www.npmjs.com/).
-
-Or if TL;DR, as the user running Node-RED type:
-
-```bash
-cd $HOME/.node-red
-npm install node-red-contrib-cec
+```sh
+npm install /path/to/node-red-contrib-cec-1.0.4.tgz
 ```
+
+Restart Node-RED after installation. This replaces the existing package of the
+same name and retains your flows. Installing `node-red-contrib-cec` by name from
+the npm registry selects the original package, not this fork.
+
+For Windows commands, backup, and rollback instructions, see
+[DEPLOYMENT.md](DEPLOYMENT.md).
+
+### Building from source
+
+From a clone of this repository, with Node.js 18 or later for the tests:
+
+```sh
+npm ci
+npm test
+npm pack
+```
+
+Tests simulate child processes and do not require CEC hardware. `npm pack`
+creates the installable archive. Use a Node.js version supported by your Node-RED
+installation. Because this module parses client output, verify operation when
+upgrading libCEC.
 
 ## Usage
 
@@ -59,9 +98,9 @@ To use the node, launch or re-launch Node-RED (see
 [running Node-RED](http://nodered.org/docs/getting-started/running.html) for
 help getting started).
 
-A [cec example flow](https://raw.githubusercontent.com/damoclark/node-red-contrib-cec/master/examples/node-red-contrib-cec-example-flow.json) is available that highlights all the features of this node, and is illustrated below.  You can copy and paste this flow into Node-RED and tinker to get a feel for how it works.
+A [cec example flow](https://raw.githubusercontent.com/lizaoreo/node-red-contrib-cec/master/examples/node-red-contrib-cec-example-flow.json) is available that highlights all the features of this node, and is illustrated below.  You can copy and paste this flow into Node-RED and tinker to get a feel for how it works.
 
-![cec example flow screen shot](https://raw.githubusercontent.com/damoclark/node-red-contrib-cec/master/examples/node-red-contrib-cec-example-flow.png)
+![cec example flow screen shot](https://raw.githubusercontent.com/lizaoreo/node-red-contrib-cec/master/examples/node-red-contrib-cec-example-flow.png)
 
 Or if you prefer, read the following explanation and screen shots.
 
@@ -70,11 +109,11 @@ This module supports multiple cec adapters.  So cec-config nodes can be shared b
 ### CEC Adapter
 When creating any of the above nodes, you must select or create a CEC Adapter configuration.  This provides connection details for connecting to the cec serial port.
 
-![node-red-contrib-cec-config-config](https://raw.githubusercontent.com/damoclark/node-red-contrib-cec/master/examples/node-red-contrib-cec-config-config.png)
+![node-red-contrib-cec-config-config](https://raw.githubusercontent.com/lizaoreo/node-red-contrib-cec/master/examples/node-red-contrib-cec-config-config.png)
 
 **OSD Name** is the name assigned to the hdmi device attached to the hdmi switch/bus. If a display such as a television sets this device as the active source, and if it supports it, this name will be displayed as a label for the device.
 
-**CEC Com Port** specifies the name of the serial port to connect with to communicate on the HDMI CEC bus. If left blank, a search is performed and the first found port is used. The port name on a Raspberry Pi is "RPI"
+**CEC Com Port** specifies the name of the serial port to connect with to communicate on the HDMI CEC bus. If left blank, a search is performed and the first found port is used. For two adapters, use two separate configurations with explicit ports such as `COM3` and `COM4` (including plain names such as `COM10`). The port name on a Raspberry Pi is "RPI"
 
 **HDMI Port** refers to the physical HDMI socket on this device, and is relevant when there is more than one. Otherwise it can be left blank.
 
@@ -103,7 +142,7 @@ The cec-in input node receives CEC messages from the HDMI CEC bus for the adapte
 }
 ```
 
-![node-red-contrib-cec-in-config](https://raw.githubusercontent.com/damoclark/node-red-contrib-cec/master/examples/node-red-contrib-cec-in-config.png)
+![node-red-contrib-cec-in-config](https://raw.githubusercontent.com/lizaoreo/node-red-contrib-cec/master/examples/node-red-contrib-cec-in-config.png)
 
 **Select CEC Adapter** - Select the Adapter to use, or create a new adapter configuration by clicking on the pencil icon. 
 
@@ -114,7 +153,7 @@ The cec-in input node receives CEC messages from the HDMI CEC bus for the adapte
 ### cec-out Node
 This is an output node that receives CEC commands on its input to send on the HDMI CEC bus.
 
-![node-red-contrib-cec-out-config](https://raw.githubusercontent.com/damoclark/node-red-contrib-cec/master/examples/node-red-contrib-cec-out-config.png)
+![node-red-contrib-cec-out-config](https://raw.githubusercontent.com/lizaoreo/node-red-contrib-cec/master/examples/node-red-contrib-cec-out-config.png)
 
 #### Input Node Format
 
@@ -443,7 +482,7 @@ For `getsource`, if `msg.address` is omitted, then all devices' state is returne
 }
 ```
 
-![node-red-contrib-cec-state-config](https://raw.githubusercontent.com/damoclark/node-red-contrib-cec/master/examples/node-red-contrib-cec-state-config.png)
+![node-red-contrib-cec-state-config](https://raw.githubusercontent.com/lizaoreo/node-red-contrib-cec/master/examples/node-red-contrib-cec-state-config.png)
 
 #### Property to Store State in Outgoing Message
 

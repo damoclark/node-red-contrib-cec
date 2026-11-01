@@ -27,7 +27,7 @@ module.exports = function(RED) {
 	function CecConfigNode(n) {
 		RED.nodes.createNode(this, n) ;
 		this.OSDname = n.OSDname ;
-		this.comport = n.comport ;
+		this.comport = (n.comport || "").trim() ;
 		this.hdmiport = n.hdmiport ;
 		this.player = n.player ;
 		this.recorder = n.recorder ;
@@ -40,7 +40,6 @@ module.exports = function(RED) {
 			wait_time: 30, //in seconds
 			trigger_stop: true
 		} ;
-		this.id = this.comport+":"+this.hdmiport ;
 	}
 	RED.nodes.registerType("cec-config", CecConfigNode) ;
 } ;
